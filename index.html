@@ -138,7 +138,7 @@
 
             <!-- Form Scanner Fisik (Ganti Action Link formResponse ini jika untuk SMP Pajjaiyang) -->
             <form action="https://docs.google.com/forms/d/e/1FAIpQLSd_1_DN7WoBMtZEaRD5UhXT55YcNBqiqS2s4y9kKsDjxSP2OA/formResponse" method="POST" target="hidden_iframe" id="presensiForm">
-                <input type="text" name="entry.87698692" id="qrInput" placeholder="Menunggu scan..." autocomplete="off" autofocus>
+                <input type="text" name="entry.87698692" id="qrInput" placeholder="Menunggu scan..." autocomplete="off" autofocus inputmode="none">
             </form>
 
             <div class="status" id="statusPesan">✅ Presensi Berhasil!</div>
@@ -382,77 +382,84 @@
         document.addEventListener('click', () => { if (!isLock) input.focus(); });
         input.addEventListener('blur', () => { if (!isLock) setTimeout(() => input.focus(), 10); });
 
-        // Eksekusi ketika scanner selesai membaca dan menekan 'Enter' otomatis
+        // Fungsi utama untuk memproses data
+        function eksekusiPresensi(scannedId) {
+            const currentTime = Date.now();
+            
+            isLock = true;
+            input.readOnly = true;
+            input.placeholder = "MOHON TUNGGU...";
+
+            let infoPegawai = dataPegawai[scannedId];
+            popNama.innerText = infoPegawai ? infoPegawai.nama : scannedId;
+            popFoto.src = infoPegawai ? infoPegawai.foto : fotoDefault;
+
+            if (scanHistory[scannedId] && (currentTime - scanHistory[scannedId] < COOLDOWN_TIME)) {
+                putarRekaman('sudah_scan.wav');
+                status.innerHTML = '⚠️ Anda sudah presensi.'; status.style.backgroundColor = '#e67e22'; 
+                popPesan.innerText = '⚠️ SUDAH PRESENSI'; popPesan.style.backgroundColor = '#e67e22';
+            } else {
+                let sekarang = new Date();
+                let jam = sekarang.getHours();
+                let menit = sekarang.getMinutes();
+
+                if (jam < 12) {
+                    if (jam > 7 || (jam === 7 && menit > 15)) {
+                        putarRekaman('terlambat.wav');
+                        status.innerHTML = '✅ Datang (Terlambat)'; status.style.backgroundColor = '#f39c12'; 
+                        popPesan.innerText = '🔴 DATANG (TERLAMBAT)'; popPesan.style.backgroundColor = '#e74c3c';
+                    } else {
+                        putarRekaman('datang_berhasil.wav');
+                        status.innerHTML = '✅ Datang Berhasil!'; status.style.backgroundColor = '#27ae60'; 
+                        popPesan.innerText = '🟢 DATANG BERHASIL'; popPesan.style.backgroundColor = '#27ae60';
+                    }
+                } else {
+                    if (jam < 16) {
+                        putarRekaman('pulang.wav');
+                        status.innerHTML = '✅ Pulang (Lebih Awal)'; status.style.backgroundColor = '#f39c12'; 
+                        popPesan.innerText = '🟡 PULANG (CEPAT)'; popPesan.style.backgroundColor = '#f39c12';
+                    } else {
+                        putarRekaman('pulang.wav');
+                        status.innerHTML = '✅ Pulang Berhasil!'; status.style.backgroundColor = '#2980b9'; 
+                        popPesan.innerText = '🔵 PULANG BERHASIL'; popPesan.style.backgroundColor = '#2980b9';
+                    }
+                }
+
+                scanHistory[scannedId] = currentTime;
+                form.submit();
+            }
+
+            status.style.opacity = '1';
+            input.value = '';
+            
+            setTimeout(() => { 
+                status.style.opacity = '0'; 
+                popFoto.src = fotoDefault;
+                popNama.innerText = "Siap Menerima Scan";
+                popPesan.innerText = "Menunggu...";
+                popPesan.style.backgroundColor = "#bdc3c7";
+                
+                isLock = false; 
+                input.readOnly = false;
+                input.placeholder = "Menunggu scan..."; 
+                input.focus();
+            }, 2000); 
+        }
+
+        // TRIGGER 1: Otomatis eksekusi jika jumlah huruf sudah mencapai 10 (Format: SDIT-XXXXX)
+        input.addEventListener('input', function() {
+            if (!isLock && input.value.trim().length >= 10) {
+                eksekusiPresensi(input.value.trim());
+            }
+        });
+
+        // TRIGGER 2: (Cadangan) Eksekusi jika tombol Enter sempat tertekan
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault(); 
-                if (isLock) { input.value = ''; return; }
-
-                const scannedId = input.value.trim();
-                if (scannedId === "") return;
-
-                const currentTime = Date.now();
-                
-                // KUNCI KOTAK SELAMA 2 DETIK
-                isLock = true;
-                input.readOnly = true;
-                input.placeholder = "MOHON TUNGGU...";
-
-                let infoPegawai = dataPegawai[scannedId];
-                popNama.innerText = infoPegawai ? infoPegawai.nama : scannedId;
-                popFoto.src = infoPegawai ? infoPegawai.foto : fotoDefault;
-
-                if (scanHistory[scannedId] && (currentTime - scanHistory[scannedId] < COOLDOWN_TIME)) {
-                    putarRekaman('sudah_scan.wav');
-                    status.innerHTML = '⚠️ Anda sudah presensi.'; status.style.backgroundColor = '#e67e22'; 
-                    popPesan.innerText = '⚠️ SUDAH PRESENSI'; popPesan.style.backgroundColor = '#e67e22';
-                } else {
-                    let sekarang = new Date();
-                    let jam = sekarang.getHours();
-                    let menit = sekarang.getMinutes();
-
-                    if (jam < 12) {
-                        if (jam > 7 || (jam === 7 && menit > 15)) {
-                            putarRekaman('terlambat.wav');
-                            status.innerHTML = '✅ Datang (Terlambat)'; status.style.backgroundColor = '#f39c12'; 
-                            popPesan.innerText = '🔴 DATANG (TERLAMBAT)'; popPesan.style.backgroundColor = '#e74c3c';
-                        } else {
-                            putarRekaman('datang_berhasil.wav');
-                            status.innerHTML = '✅ Datang Berhasil!'; status.style.backgroundColor = '#27ae60'; 
-                            popPesan.innerText = '🟢 DATANG BERHASIL'; popPesan.style.backgroundColor = '#27ae60';
-                        }
-                    } else {
-                        if (jam < 16) {
-                            putarRekaman('pulang.wav');
-                            status.innerHTML = '✅ Pulang (Lebih Awal)'; status.style.backgroundColor = '#f39c12'; 
-                            popPesan.innerText = '🟡 PULANG (CEPAT)'; popPesan.style.backgroundColor = '#f39c12';
-                        } else {
-                            putarRekaman('pulang.wav');
-                            status.innerHTML = '✅ Pulang Berhasil!'; status.style.backgroundColor = '#2980b9'; 
-                            popPesan.innerText = '🔵 PULANG BERHASIL'; popPesan.style.backgroundColor = '#2980b9';
-                        }
-                    }
-
-                    scanHistory[scannedId] = currentTime;
-                    form.submit();
+                if (!isLock && input.value.trim() !== "") { 
+                    eksekusiPresensi(input.value.trim()); 
                 }
-
-                status.style.opacity = '1';
-                input.value = '';
-                
-                // JEDA WAKTU RESET 2 DETIK
-                setTimeout(() => { 
-                    status.style.opacity = '0'; 
-                    popFoto.src = fotoDefault;
-                    popNama.innerText = "Siap Menerima Scan";
-                    popPesan.innerText = "Menunggu...";
-                    popPesan.style.backgroundColor = "#bdc3c7";
-                    
-                    isLock = false; 
-                    input.readOnly = false;
-                    input.placeholder = "Menunggu scan..."; 
-                    input.focus();
-                }, 2000); 
             }
         });
     </script>
