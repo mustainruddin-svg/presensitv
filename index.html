@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Presensi SMPIT Ar-Rahmah</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            /* Latar Belakang Gradasi Biru Navy */
+            background: linear-gradient(135deg, #101c38 0%, #1e3c72 100%); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            box-sizing: border-box;
+        }
+
+        /* =========================================
+           SISTEM KEAMANAN BLOKIR TOTAL (AWAL)
+           ========================================= */
+        .wrapper { display: none; } /* Mesin disembunyikan sejak awal */
+        .peringatan-hp {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            height: 100vh;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        .peringatan-hp span { font-size: 80px; margin-bottom: 20px; }
+
+        /* --- WADAH UTAMA SPLIT SCREEN --- */
+        .wrapper {
+            flex-direction: row;
+            width: 100%;
+            max-width: 1100px;
+            gap: 25px;
+        }
+
+        /* PANEL KIRI & KANAN (Putih Bersih) */
+        .left-panel, .right-panel {
+            background-color: white; 
+            padding: 50px 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 35px rgba(0,0,0,0.3); 
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* --- DESAIN PANEL KIRI --- */
+        .logo-text { color: #2c3e50; font-size: 32px; font-weight: 800; margin-bottom: 5px; }
+        .sub-text { color: #7f8c8d; font-size: 16px; margin-bottom: 25px; }
+        
+        /* Area Input Kotak Scanner */
+        input { 
+            padding: 20px; font-size: 26px; width: 90%; text-align: center; 
+            border: 3px solid #3498db; border-radius: 10px; background-color: #f8f9fa; 
+            color: #2c3e50; font-weight: bold; outline: none; transition: 0.3s; box-sizing: border-box;
+        }
+        input:focus { border-color: #27ae60; background-color: #fff; box-shadow: 0 0 15px rgba(39, 174, 96, 0.3); }
+        input:read-only { background-color: #e74c3c; border-color: #c0392b; color: white; cursor: not-allowed; }
+        input:read-only::placeholder { color: rgba(255, 255, 255, 0.8); }
+
+        .status { 
+            margin-top: 25px; font-size: 22px; color: white; background-color: #27ae60; 
+            padding: 15px 25px; border-radius: 8px; font-weight: bold; opacity: 0; 
+            transition: 0.4s; width: 90%; box-sizing: border-box;
+        }
+
+        /* --- WIDGET JAM & COUNTDOWN --- */
+        .time-widget {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px dashed #bdc3c7;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .time-area { text-align: left; }
+        .clock-text { font-size: 38px; font-weight: 900; color: #2c3e50; line-height: 1; font-variant-numeric: tabular-nums; }
+        .date-text { font-size: 14px; font-weight: bold; color: #7f8c8d; margin-top: 5px; }
+        
+        .countdown-area { text-align: right; }
+        .countdown-label { font-size: 13px; font-weight: bold; color: #7f8c8d; text-transform: uppercase; margin-bottom: 5px; }
+        .countdown-timer { font-size: 24px; font-weight: 900; color: #27ae60; }
+        
+        /* Warna dinamis Countdown */
+        .status-piket .countdown-timer { color: #f39c12; }
+        .status-normal .countdown-timer { color: #27ae60; }
+        .status-telat .countdown-timer { color: #e74c3c; }
+        .status-pulang .countdown-timer { color: #2980b9; }
+
+        /* --- DESAIN PANEL KANAN (PROFIL) --- */
+        .foto-profil {
+            width: 260px; height: 260px; border-radius: 50%; object-fit: cover;
+            border: 8px solid #ecf0f1; box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin-bottom: 25px; transition: 0.3s;
+        }
+        .nama-profil { font-size: 32px; font-weight: bold; color: #2c3e50; margin-bottom: 15px; min-height: 40px; }
+        .pesan-profil { 
+            font-size: 20px; font-weight: bold; color: white; padding: 12px 30px; 
+            border-radius: 30px; display: inline-block; background-color: #bdc3c7; transition: 0.3s;
+        }
+
+        iframe { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- WADAH PERINGATAN (Akan hilang jika kuncinya benar) -->
+    <div class="peringatan-hp" id="layarBlokir">
+        <span>⛔</span>
+        <div>AKSES DITOLAK!</div>
+        <div style="font-size: 16px; margin-top: 15px; font-weight: normal; max-width: 600px; line-height: 1.5;">
+            Mesin Presensi ini belum diotorisasi atau Anda mengaksesnya dari perangkat yang tidak diizinkan.<br>
+            <strong>Hubungi Administrator (Sutradara Media & Humas SIT Ar-Rahmah).</strong>
+        </div>
+    </div>
+
+    <!-- WADAH UTAMA PRESENSI -->
+    <div class="wrapper" id="layarPresensi">
+        <div class="left-panel">
+            <div class="logo-text">SIT Ar-Rahmah</div>
+            <div class="sub-text">Bismillah, silakan scan ID Card Anda</div>
+
+            <!-- Form Scanner Fisik (Ganti Action Link formResponse ini jika untuk SMP Pajjaiyang) -->
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLSd_1_DN7WoBMtZEaRD5UhXT55YcNBqiqS2s4y9kKsDjxSP2OA/formResponse" method="POST" target="hidden_iframe" id="presensiForm">
+                <input type="text" name="entry.87698692" id="qrInput" placeholder="Menunggu scan..." autocomplete="off" autofocus>
+            </form>
+
+            <div class="status" id="statusPesan">✅ Presensi Berhasil!</div>
+
+            <!-- Widget Jam & Countdown -->
+            <div class="time-widget">
+                <div class="time-area">
+                    <div class="clock-text" id="displayClock">00:00:00</div>
+                    <div class="date-text" id="displayDate">Memuat tanggal...</div>
+                </div>
+                <div class="countdown-area" id="infoCard">
+                    <div class="countdown-label" id="statusLabel">Menghitung jadwal...</div>
+                    <div class="countdown-timer" id="displayCountdown">-- m -- d</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Foto Profil" class="foto-profil" id="popFoto">
+            <div class="nama-profil" id="popNama">Siap Menerima Scan</div>
+            <div class="pesan-profil" id="popPesan">Menunggu...</div>
+        </div>
+    </div>
+
+    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
+    <script>
+        // ==========================================
+        // SISTEM GEMBOK OTORISASI (KUNCI RAHASIA)
+        // ==========================================
+        const sandiRahasia = "arrahmah2026"; 
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const kunciMasuk = urlParams.get('kunci');
+
+        if (kunciMasuk === sandiRahasia) {
+            localStorage.setItem("izinPresensi", "Sah");
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        if (localStorage.getItem("izinPresensi") === "Sah") {
+            document.getElementById('layarPresensi').style.display = 'flex';
+            document.getElementById('layarBlokir').style.display = 'none';
+        } else {
+            document.body.style.background = '#e74c3c';
+            throw new Error("Akses Ditolak. Sistem Dihentikan."); 
+        }
+
+        // ==========================================
+        // PENGATURAN WAKTU
+        // ==========================================
+        const batasPiketJam = 6;
+        const batasPiketMenit = 45; 
+        const batasNormalJam = 7;
+        const batasNormalMenit = 0; 
+
+        // ==========================================
+        // DATABASE PEGAWAI (Silakan digabung SD & SMP di sini)
+        // ==========================================
+        const dataPegawai = {
+            "SDIT-A001A": { nama: "Hasan Hamido, S.Pd., M.Si.", foto: "foto/hasan.jpg" },
+            "SDIT-A002A": { nama: "Muharram Jaya, S.Pd.I.", foto: "foto/muharram.jpg" },
+            "SDIT-A003A": { nama: "Jusria Kadir, S.Sos., M.Pd.", foto: "foto/jusria.jpg" },
+            "SDIT-A004A": { nama: "Masrudi", foto: "foto/masrudi.jpg" },
+            "SDIT-D883C": { nama: "Mustain Ruddin, A.Md", foto: "foto/mustain.jpg" },
+            "SDIT-87B29": { nama: "Inayatul Hidayah Syahrir, S.Pt", foto: "foto/inayatul.jpg" },
+            "SDIT-90CA6": { nama: "Arman, S.Pd.I, M.M,Gr.", foto: "foto/arman.jpg" },
+            "SDIT-92BEA": { nama: "Shabrina Dirham HS, S.Pd, Gr.", foto: "foto/shabrina.jpg" },
+            "SDIT-87A92": { nama: "Masram, S.H", foto: "foto/masram.jpg" },
+            "SDIT-C640B": { nama: "Maryam, A.Md", foto: "foto/maryam.jpg" },
+            "SDIT-8F693": { nama: "Usman, S.Pd.I", foto: "foto/usman.jpg" },
+            "SDIT-550B8": { nama: "Putri Dayana Mursalim, S.Si, S.Pd.", foto: "foto/putri.jpg" },
+            "SDIT-B83B2": { nama: "Hasrah, S.Pd", foto: "foto/hasrah.jpg" },
+            "SDIT-55D33": { nama: "Andri Yanti Lamakarau, S.Pd.I", foto: "foto/yanti.jpg" },
+            "SDIT-AB7D5": { nama: "Nur Rahmah, S.Pd", foto: "foto/nurrahmah.jpg" },
+            "SDIT-A7A9F": { nama: "Hermianti Muhajir, S.Pd", foto: "foto/hermianti.jpg" },
+            "SDIT-585E5": { nama: "Hudal Fajriah, S.Pd, Gr.", foto: "foto/hudal.jpg" },
+            "SDIT-E0D54": { nama: "Erna Damayanti, S.Pd, M.Pd., Gr.", foto: "foto/erna.jpg" },
+            "SDIT-9FFCE": { nama: "Aliah Mansyur, SE", foto: "foto/aliah.jpg" },
+            "SDIT-9CFCB": { nama: "Ilham, S.Pd", foto: "foto/ilham.jpg" },
+            "SDIT-55848": { nama: "Hamsah, ST, Gr.", foto: "foto/hamsah.jpg" },
+            "SDIT-86044": { nama: "Sitti Fathimah, S.Pd", foto: "foto/fathimah.jpg" },
+            "SDIT-CF5AA": { nama: "Murniati, S.Si, Gr.", foto: "foto/murniati.jpg" },
+            "SDIT-651EC": { nama: "Herianti Riki, S.Pd", foto: "foto/herianti.jpg" },
+            "SDIT-32BA8": { nama: "Khaerati, S.Pd.", foto: "foto/khaerati.jpg" },
+            "SDIT-64B52": { nama: "Muhammad Fadel, S.Pd.", foto: "foto/fadel.jpg" },
+            "SDIT-7E0D2": { nama: "Rahmawanti, SE", foto: "foto/rahmawanti.jpg" },
+            "SDIT-CCF25": { nama: "Nurlia Hanaping, S.S", foto: "foto/nurlia.jpg" },
+            "SDIT-AA5B1": { nama: "Hamsinasa, S.Pd.I, M.A", foto: "foto/hamsinasa.jpg" },
+            "SDIT-C5EF0": { nama: "Kartina, S.T", foto: "foto/kartina.jpg" },
+            "SDIT-1F1DA": { nama: "Suciyanengsi, S.Pd", foto: "foto/suciyanengsi.jpg" },
+            "SDIT-91826": { nama: "Megawati, S.Pd", foto: "foto/megawati.jpg" },
+            "SDIT-91F73": { nama: "Aulia Rahmawati Taufik, S.Pd.", foto: "foto/aulia.jpg" },
+            "SDIT-26113": { nama: "Siti Faridah, S.S., S.Pd.", foto: "foto/faridah.jpg" },
+            "SDIT-7A408": { nama: "Andi Selviana, S.Pd", foto: "foto/selvi.jpg" },
+            "SDIT-453DF": { nama: "Satriawan A. Rasyid, S.Pd.", foto: "foto/satriawan.jpg" },
+            "SDIT-58B95": { nama: "Nur Intan Wulandari, S.Pd.", foto: "foto/wulan.jpg" },
+            "SDIT-833A4": { nama: "Rosdiana, S.Pd.I., Gr.", foto: "foto/rosdiana.jpg" },
+            "SDIT-A0601": { nama: "Baharuddin, S.H.I.", foto: "foto/baharuddin.jpg" },
+            "SDIT-3B686": { nama: "Hilal Satriawan, S.Pd., M.Pd.", foto: "foto/hilal.jpg" },
+            "SDIT-E28C3": { nama: "Muh. Fadly Ilyas, S.Pd", foto: "foto/fadly.jpg" },
+            "SDIT-25730": { nama: "M. Akil Husain, S.Pd.I", foto: "foto/akil.jpg" },
+            "SDIT-95F44": { nama: "Aan Al Ikhsan Hasda, S.Pd.", foto: "foto/aan.jpg" },
+            "SDIT-D5DCC": { nama: "Rosnani Alimuddin", foto: "foto/rosnani.jpg" },
+            "SDIT-2DD9F": { nama: "Yamlik, S.S.", foto: "foto/yamlik.jpg" },
+            "SDIT-69495": { nama: "Syarif Dai, S.Pd.", foto: "foto/syarif.jpg" },
+            "SDIT-72155": { nama: "Mariati, S.Pd.I.", foto: "foto/mariati.jpg" },
+            "SDIT-4647E": { nama: "Mahira, S.Pd., M.Pd.", foto: "foto/mahira.jpg" },
+            "SDIT-C798C": { nama: "Muammar Qadafi, S,Kep", foto: "foto/muammar.jpg" },
+            "SDIT-44D60": { nama: "Siti Fathin Faizah Yunus, S.Pd., Gr.", foto: "foto/fathin.jpg" },
+            "SDIT-EB76E": { nama: "Muh. Idris P, S.Pd., M.Pd.", foto: "foto/idris.jpg" },
+            "SDIT-DA0E4": { nama: "Puspa Amelia, S.Pd.", foto: "foto/puspa.jpg" },
+            "SDIT-80EA9": { nama: "Ayu Viviyani Astuti, S.Pd.", foto: "foto/vivi.jpg" },
+            "SDIT-6AABB": { nama: "Nurul Adawiah Laeka, S.Pd., Gr", foto: "foto/adawiah.jpg" },
+            "SDIT-457A7": { nama: "Dewiana, S.Pd.", foto: "foto/dewiana.jpg" },
+            "SDIT-6C98F": { nama: "Romi R Lebang, S.Sos", foto: "foto/romi.jpg" },
+            "SDIT-C5DFB": { nama: "Ayatri Pratiwi D., S.Pd", foto: "foto/ayatri.jpg" },
+            "SDIT-1DC3B": { nama: "Syarifah Namratul Aulia, S.S.", foto: "foto/syarifah.jpg" },
+            "SDIT-C6F09": { nama: "Zahra Mufliha Muslim, S.Pd.", foto: "foto/zahra.jpg" },
+            "SDIT-86327": { nama: "A. Surianti Ningsi, S.Pd.", foto: "foto/ningsi.jpg" },
+            "SDIT-7B797": { nama: "Miftahul Jannah, S.Pd.", foto: "foto/miftah.jpg" },
+            "SDIT-336A9": { nama: "Ulpa Reni, S.Pd.", foto: "foto/ulpa.jpg" },
+            "SDIT-3CAF5": { nama: "Marwan, S.H.I", foto: "foto/marwan.jpg" },
+            "SDIT-23D24": { nama: "Ismail Bobihu, S.Pd.I., Gr.", foto: "foto/ismail.jpg" },
+            "SDIT-C3812": { nama: "Erlina Arifin, S.Pd.", foto: "foto/erlina.jpg" },
+            "SDIT-F00E4": { nama: "Muhammad Arif Juanda, S.Ag.", foto: "foto/arif.jpg" },
+            "SDIT-B80AA": { nama: "St. Marwah, S.Pd.", foto: "foto/marwah.jpg" },
+            "SDIT-4E1F4": { nama: "Noer Chalish, SE", foto: "foto/noer.jpg" },
+            "SDIT-31765": { nama: "Nurul Wahida Istiqomah, S.St", foto: "foto/nurul.jpg" },
+            "SDIT-24E2A": { nama: "Rachmat Arsyad, S.IP", foto: "foto/rachmat.jpg" },
+            "SDIT-7C8FB": { nama: "Angriana, S.I.P.", foto: "foto/angriana.jpg" },
+            "SDIT-87669": { nama: "Hastuti, S.S", foto: "foto/hastuti.jpg" },
+            "SDIT-35A4D": { nama: "A. Nurul Mujahidah Muhammadiyah, S.Si.", foto: "foto/nurulmuajhidah.jpg" },
+            "SDIT-50F10": { nama: "Sri Ernawati S.Pd.I", foto: "foto/sri.jpg" },
+            "SDIT-D10A6": { nama: "Annisa Nur Ramadhani, S.Pd.", foto: "foto/annisa.jpg" },
+            "SDIT-C09E3": { nama: "Ardila Pratiwi Hasrah, S.Tr.Li.", foto: "foto/ardila.jpg" },
+            "SDIT-4333B": { nama: "Asmiati, S.Pd.", foto: "foto/asmiati.jpg" },
+            "SDIT-8A4BA": { nama: "Irma Yanti, S.Pd.", foto: "foto/irma.jpg" },
+            "SDIT-6D226": { nama: "Asniati", foto: "foto/asniati.jpg" },
+            "SDIT-CDA5F": { nama: "Shofiyyah Mushlihah H, S.Pd.", foto: "foto/shofiyyah.jpg" },
+            "SDIT-81FAC": { nama: "Adi Ambo Nai", foto: "foto/adi.jpg" },
+            "SDIT-B7F2F": { nama: "Muh. Luthfi Basyarahil", foto: "foto/luthfi.jpg" },
+            "SDIT-67354": { nama: "Faisal", foto: "foto/faisal.jpg" },
+            "SDIT-42328": { nama: "Iskandar", foto: "foto/iskandar.jpg" },
+            "SDIT-D8BEB": { nama: "Burhanuddin", foto: "foto/burhanuddin.jpg" },
+            "SDIT-816B9": { nama: "Rohana", foto: "foto/rohana.jpg" },
+            "SDIT-6C4FA": { nama: "Heriyani", foto: "foto/heriyani.jpg" },
+            "SDIT-390CE": { nama: "Ernawati", foto: "foto/ernawati.jpg" },
+            "SDIT-BA70D": { nama: "Miskan Suratman", foto: "foto/miskan.jpg" },
+            "SDIT-45C19": { nama: "M. Yunus", foto: "foto/yunus.jpg" }
+        };
+        const fotoDefault = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"; 
+
+        // ==========================================
+        // LOGIKA JAM & COUNTDOWN
+        // ==========================================
+        function formatDuaDigit(angka) { return angka < 10 ? '0' + angka : angka; }
+
+        function updateDashboardWaktu() {
+            const sekarang = new Date();
+            const jam = formatDuaDigit(sekarang.getHours());
+            const menit = formatDuaDigit(sekarang.getMinutes());
+            const detik = formatDuaDigit(sekarang.getSeconds());
+            document.getElementById('displayClock').innerText = `${jam}:${menit}:${detik}`;
+
+            const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            document.getElementById('displayDate').innerText = `${hari[sekarang.getDay()]}, ${sekarang.getDate()} ${bulan[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
+
+            let targetPiket = new Date(sekarang); targetPiket.setHours(7, 0, 59, 0);   
+            let targetNormal = new Date(sekarang); targetNormal.setHours(7, 15, 59, 0); 
+            let targetPulang = new Date(sekarang); targetPulang.setHours(16, 0, 0, 0);  
+
+            const labelEl = document.getElementById('statusLabel');
+            const cdEl = document.getElementById('displayCountdown');
+            const cardEl = document.getElementById('infoCard');
+
+            cardEl.className = 'countdown-area'; 
+
+            if (sekarang <= targetPiket) {
+                let selisih = targetPiket - sekarang;
+                let sisaMenit = formatDuaDigit(Math.floor(selisih / 60000));
+                let sisaDetik = formatDuaDigit(Math.floor((selisih % 60000) / 1000));
+                labelEl.innerText = `Batas Piket (07:00)`;
+                cdEl.innerText = `${sisaMenit}m : ${sisaDetik}d`;
+                cardEl.classList.add('status-piket');
+            } 
+            else if (sekarang <= targetNormal) {
+                let selisih = targetNormal - sekarang;
+                let sisaMenit = formatDuaDigit(Math.floor(selisih / 60000));
+                let sisaDetik = formatDuaDigit(Math.floor((selisih % 60000) / 1000));
+                labelEl.innerText = `Batas Kedatangan (07:15)`;
+                cdEl.innerText = `${sisaMenit}m : ${sisaDetik}d`;
+                cardEl.classList.add('status-normal');
+            } 
+            else if (sekarang.getHours() < 12) {
+                labelEl.innerText = "Batas Kedatangan Berakhir";
+                cdEl.innerText = "TERLAMBAT";
+                cardEl.classList.add('status-telat');
+            } 
+            else if (sekarang < targetPulang) {
+                let selisih = targetPulang - sekarang;
+                let sisaJam = Math.floor(selisih / 3600000);
+                let sisaMenit = formatDuaDigit(Math.floor((selisih % 3600000) / 60000));
+                let sisaDetik = formatDuaDigit(Math.floor((selisih % 60000) / 1000));
+                labelEl.innerText = `Menuju Jam Pulang (16:00)`;
+                cdEl.innerText = `${sisaJam}j : ${sisaMenit}m : ${sisaDetik}d`;
+                cardEl.classList.add('status-pulang');
+            } 
+            else {
+                labelEl.innerText = "Waktu Mengajar Selesai";
+                cdEl.innerText = "MODE PULANG";
+                cardEl.classList.add('status-normal');
+            }
+        }
+        setInterval(updateDashboardWaktu, 1000);
+        updateDashboardWaktu();
+
+        // ==========================================
+        // LOGIKA SCANNER FISIK (BARCODE/QR TEMBAK)
+        // ==========================================
+        const input = document.getElementById('qrInput');
+        const form = document.getElementById('presensiForm');
+        const status = document.getElementById('statusPesan');
+        const popFoto = document.getElementById('popFoto');
+        const popNama = document.getElementById('popNama');
+        const popPesan = document.getElementById('popPesan');
+        
+        const scanHistory = {}; 
+        const COOLDOWN_TIME = 10 * 60 * 1000; 
+        let isLock = false; 
+        let audioAktif = null; 
+
+        function putarRekaman(fileAudio) {
+            if (audioAktif) { audioAktif.pause(); audioAktif.currentTime = 0; }
+            audioAktif = new Audio(fileAudio);
+            audioAktif.play().catch(e => console.log("Audio play blocked"));
+        }
+
+        // Paksa kursor selalu berada di dalam kotak input
+        document.addEventListener('click', () => { if (!isLock) input.focus(); });
+        input.addEventListener('blur', () => { if (!isLock) setTimeout(() => input.focus(), 10); });
+
+        // Eksekusi ketika scanner selesai membaca dan menekan 'Enter' otomatis
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); 
+                if (isLock) { input.value = ''; return; }
+
+                const scannedId = input.value.trim();
+                if (scannedId === "") return;
+
+                const currentTime = Date.now();
+                
+                // KUNCI KOTAK SELAMA 2 DETIK
+                isLock = true;
+                input.readOnly = true;
+                input.placeholder = "MOHON TUNGGU...";
+
+                let infoPegawai = dataPegawai[scannedId];
+                popNama.innerText = infoPegawai ? infoPegawai.nama : scannedId;
+                popFoto.src = infoPegawai ? infoPegawai.foto : fotoDefault;
+
+                if (scanHistory[scannedId] && (currentTime - scanHistory[scannedId] < COOLDOWN_TIME)) {
+                    putarRekaman('sudah_scan.wav');
+                    status.innerHTML = '⚠️ Anda sudah presensi.'; status.style.backgroundColor = '#e67e22'; 
+                    popPesan.innerText = '⚠️ SUDAH PRESENSI'; popPesan.style.backgroundColor = '#e67e22';
+                } else {
+                    let sekarang = new Date();
+                    let jam = sekarang.getHours();
+                    let menit = sekarang.getMinutes();
+
+                    if (jam < 12) {
+                        if (jam > 7 || (jam === 7 && menit > 15)) {
+                            putarRekaman('terlambat.wav');
+                            status.innerHTML = '✅ Datang (Terlambat)'; status.style.backgroundColor = '#f39c12'; 
+                            popPesan.innerText = '🔴 DATANG (TERLAMBAT)'; popPesan.style.backgroundColor = '#e74c3c';
+                        } else {
+                            putarRekaman('datang_berhasil.wav');
+                            status.innerHTML = '✅ Datang Berhasil!'; status.style.backgroundColor = '#27ae60'; 
+                            popPesan.innerText = '🟢 DATANG BERHASIL'; popPesan.style.backgroundColor = '#27ae60';
+                        }
+                    } else {
+                        if (jam < 16) {
+                            putarRekaman('pulang.wav');
+                            status.innerHTML = '✅ Pulang (Lebih Awal)'; status.style.backgroundColor = '#f39c12'; 
+                            popPesan.innerText = '🟡 PULANG (CEPAT)'; popPesan.style.backgroundColor = '#f39c12';
+                        } else {
+                            putarRekaman('pulang.wav');
+                            status.innerHTML = '✅ Pulang Berhasil!'; status.style.backgroundColor = '#2980b9'; 
+                            popPesan.innerText = '🔵 PULANG BERHASIL'; popPesan.style.backgroundColor = '#2980b9';
+                        }
+                    }
+
+                    scanHistory[scannedId] = currentTime;
+                    form.submit();
+                }
+
+                status.style.opacity = '1';
+                input.value = '';
+                
+                // JEDA WAKTU RESET 2 DETIK
+                setTimeout(() => { 
+                    status.style.opacity = '0'; 
+                    popFoto.src = fotoDefault;
+                    popNama.innerText = "Siap Menerima Scan";
+                    popPesan.innerText = "Menunggu...";
+                    popPesan.style.backgroundColor = "#bdc3c7";
+                    
+                    isLock = false; 
+                    input.readOnly = false;
+                    input.placeholder = "Menunggu scan..."; 
+                    input.focus();
+                }, 2000); 
+            }
+        });
+    </script>
+</body>
+</html>
