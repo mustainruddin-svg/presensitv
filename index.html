@@ -130,13 +130,17 @@
     }
 
     /* Jam besar */
-    .jam-hero {
-      background: linear-gradient(135deg, #bde4f7 0%, #ddf0fb 100%);
-      border-radius: 12px;
-      padding: 14px 20px 12px;
-      text-align: center;
-      flex-shrink: 0;
-    }
+.jam-hero {
+  background: linear-gradient(135deg, #bde4f7 0%, #ddf0fb 100%);
+  border-radius: 12px;
+  padding: 14px 20px 12px;
+  text-align: center;
+  flex-shrink: 0;
+  min-height: 200px;        /* ← tambahkan ini untuk tinggi */
+  display: flex;            /* ← tambahkan ini */
+  flex-direction: column;   /* ← tambahkan ini */
+  justify-content: center;  /* ← tambahkan ini */
+}
     .jam-hero .tgl {
       font-size: 13px; font-weight: 700;
       color: var(--teks-sedang); text-transform: uppercase;
