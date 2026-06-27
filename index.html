@@ -9,11 +9,9 @@
 
     :root {
       --biru        : #2AA8E0;
-      --biru-gelap  : #1a7ab5;
-      --biru-navy   : #0d2137;
       --emas        : #C9A84C;
       --putih       : #ffffff;
-      --abu-muda    : #f0f4f8;
+      --abu-muda    : #eef4f9;
       --abu-border  : #d4e0ec;
       --teks-gelap  : #1a2940;
       --teks-sedang : #4a6080;
@@ -22,41 +20,22 @@
       --merah       : #e74c3c;
       --biru-pulang : #2980b9;
       --ungu        : #8e44ad;
+      --navy        : #0d2137;
     }
 
     html, body {
-      height: 100%;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      height: 100%; width: 100%;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       background: linear-gradient(155deg, #0d2137 0%, #1a3a5c 65%, #0f2a45 100%);
       overflow: hidden;
     }
 
-    /* ── LAYAR BLOKIR ── */
-    #layarBlokir {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      color: var(--putih);
-      text-align: center;
-      padding: 40px;
-    }
-    #layarBlokir .ikon { font-size: 72px; margin-bottom: 20px; }
-    #layarBlokir h2   { font-size: 26px; margin-bottom: 10px; }
-    #layarBlokir p    { font-size: 14px; opacity: .7; max-width: 440px; line-height: 1.6; }
-
     /* ── LOADING ── */
     #layarLoading {
       position: fixed; inset: 0;
-      background: rgba(13,33,55,.93);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 14px;
-      z-index: 999;
-      transition: opacity .4s;
+      background: rgba(13,33,55,.95);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 14px; z-index: 999; transition: opacity .4s;
     }
     .spin {
       width: 40px; height: 40px;
@@ -68,279 +47,270 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     #layarLoading p { color: rgba(255,255,255,.65); font-size: 13px; }
 
-    /* ── LAYOUT UTAMA ── */
+    /* ── BLOKIR ── */
+    #layarBlokir {
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100vh; color: var(--putih); text-align: center; padding: 40px;
+    }
+    #layarBlokir .ikon { font-size: 72px; margin-bottom: 20px; }
+    #layarBlokir h2   { font-size: 26px; margin-bottom: 10px; }
+    #layarBlokir p    { font-size: 14px; opacity: .7; max-width: 440px; line-height: 1.6; }
+
+    /* ══════════════════════════════════
+       LAYOUT UTAMA
+    ══════════════════════════════════ */
     #layarPresensi {
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
       display: none;
       flex-direction: column;
       height: 100vh;
-      padding: 14px 18px 10px;
-      gap: 10px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 10px 16px 8px;
+      gap: 8px;
     }
 
     /* ── HEADER ── */
     .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-shrink: 0;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 10px; }
     .logo-box {
-      background: var(--biru);
-      border-radius: 10px;
-      padding: 7px 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      background: var(--biru); border-radius: 10px;
+      padding: 6px 10px; display: flex; align-items: center; gap: 8px;
     }
-    .logo-nama  { color: var(--putih); font-size: 14px; font-weight: 800; line-height: 1.1; }
-    .logo-sub   { color: rgba(255,255,255,.65); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .unit-grup  { display: flex; flex-direction: column; gap: 2px; }
-    .unit-nama  { color: var(--putih); font-size: 18px; font-weight: 800; line-height: 1; }
-    .unit-sub   { color: var(--emas); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+    .logo-nama { color: var(--putih); font-size: 13px; font-weight: 800; line-height: 1.1; }
+    .logo-sub  { color: rgba(255,255,255,.65); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+    .unit-grup { display: flex; flex-direction: column; gap: 1px; }
+    .unit-nama { color: var(--putih); font-size: 17px; font-weight: 800; line-height: 1; }
+    .unit-sub  { color: var(--emas); font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
     .unit-badge {
-      display: inline-block;
-      background: var(--biru);
-      color: var(--putih);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 20px;
-      margin-top: 2px;
+      display: inline-block; background: var(--biru); color: var(--putih);
+      font-size: 9px; font-weight: 700; padding: 2px 10px;
+      border-radius: 20px; margin-top: 2px;
     }
     .header-kanan { display: flex; align-items: center; gap: 8px; }
     .badge-live {
-      background: rgba(39,174,96,.2);
-      border: 1px solid rgba(39,174,96,.4);
-      color: #5de89a;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
+      background: rgba(39,174,96,.2); border: 1px solid rgba(39,174,96,.4);
+      color: #5de89a; font-size: 10px; font-weight: 600;
+      padding: 4px 11px; border-radius: 20px;
       display: flex; align-items: center; gap: 5px;
     }
     .badge-live .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #27ae60;
+      width: 6px; height: 6px; border-radius: 50%; background: #27ae60;
       animation: blink 1.4s ease-in-out infinite;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
     .badge-live.error { background: rgba(231,76,60,.2); border-color: rgba(231,76,60,.4); color: #ff8080; }
     .badge-live.error .dot { background: var(--merah); animation: none; }
     .btn-refresh {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.2);
-      color: var(--putih);
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: .2s;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      color: var(--putih); font-size: 10px; font-weight: 600;
+      padding: 4px 11px; border-radius: 20px; cursor: pointer; transition: .2s;
     }
     .btn-refresh:hover { background: rgba(255,255,255,.2); }
 
     /* ── KONTEN SPLIT ── */
     .konten {
-      display: flex;
-      gap: 12px;
-      flex: 1;
-      min-height: 0;
+      display: flex; gap: 10px; flex: 1; min-height: 0;
     }
 
-    /* ── PANEL KIRI ── */
+    /* ══════════════════════════════════
+       PANEL KIRI
+    ══════════════════════════════════ */
     .panel-kiri {
-      flex: 1.2;
+      flex: 1.1;
       background: var(--putih);
       border-radius: 16px;
-      padding: 20px 22px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      padding: 16px 18px 14px;
+      display: flex; flex-direction: column; gap: 10px;
       box-shadow: 0 8px 30px rgba(0,0,0,.3);
       overflow: hidden;
     }
-    .panel-judul    { font-size: 11px; font-weight: 700; color: var(--teks-sedang); text-transform: uppercase; letter-spacing: 1.5px; }
-    .panel-sub      { font-size: 12px; color: var(--teks-sedang); margin-top: 2px; }
 
-    /* Grid jam — 9 sel sesuai peta rumus */
-    .grid-jam {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .kj {
-      background: var(--abu-muda);
-      border: 1.5px solid var(--abu-border);
-      border-radius: 9px;
-      padding: 8px 10px;
+    /* Jam besar */
+    .jam-hero {
+      background: linear-gradient(135deg, #bde4f7 0%, #ddf0fb 100%);
+      border-radius: 12px;
+      padding: 14px 20px 12px;
       text-align: center;
+      flex-shrink: 0;
     }
-    .kj.guru   { border-color: #a8d5f5; background: #eef7fd; }
-    .kj.sabtu  { border-color: #c4e4c4; background: #edf7ed; }
-    .kj.yys    { border-color: #dac4f5; background: #f5eeff; }
-    .kj.cs     { border-color: #f5d9a0; background: #fdf6e3; }
-    .kj-label  { font-size: 9px; font-weight: 700; color: var(--teks-sedang); text-transform: uppercase; letter-spacing: .7px; }
-    .kj-nilai  { font-size: 18px; font-weight: 900; color: var(--biru); margin-top: 2px; font-variant-numeric: tabular-nums; }
-    .kj.yys .kj-nilai  { color: var(--ungu); }
-    .kj.cs  .kj-nilai  { color: var(--oranye); }
-    .kj.sabtu .kj-nilai { color: var(--hijau); }
-
-    /* Area Scanner */
-    .scanner-wrap { position: relative; }
-    #qrInput {
-      width: 100%;
-      padding: 15px 46px 15px 16px;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--teks-gelap);
-      background: var(--abu-muda);
-      border: 2.5px solid var(--biru);
-      border-radius: 11px;
-      outline: none;
-      transition: .25s;
-      letter-spacing: 1px;
+    .jam-hero .tgl {
+      font-size: 13px; font-weight: 700;
+      color: var(--teks-sedang); text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 2px;
     }
-    #qrInput::placeholder { font-size: 13px; font-weight: 400; color: #aab; letter-spacing: 0; }
-    #qrInput:focus { border-color: var(--hijau); box-shadow: 0 0 0 4px rgba(39,174,96,.12); }
-    #qrInput:read-only { background: #fdecea; border-color: var(--merah); color: var(--merah); cursor: not-allowed; }
-    .scan-ikon { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); font-size: 20px; opacity: .35; }
-
-    .kotak-status {
-      margin-top: 8px;
-      padding: 11px 16px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--putih);
-      background: var(--hijau);
-      opacity: 0;
-      transition: opacity .3s;
-      text-align: center;
+    .jam-hero .angka {
+      font-size: 72px; font-weight: 900;
+      color: var(--teks-gelap); font-variant-numeric: tabular-nums;
+      letter-spacing: -2px; line-height: 1;
     }
-
-    /* Jam + Countdown */
-    .footer-waktu {
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1.5px dashed var(--abu-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+    .jam-hero .cd-wrap {
+      margin-top: 6px; display: flex;
+      align-items: center; justify-content: center; gap: 8px;
     }
-    .jam-besar .angka {
-      font-size: 40px;
-      font-weight: 900;
-      color: var(--teks-gelap);
+    .jam-hero .cd-prefix {
+      font-size: 12px; font-weight: 700; color: var(--teks-sedang);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .jam-hero .cd-nilai {
+      font-size: 13px; font-weight: 900;
       font-variant-numeric: tabular-nums;
-      letter-spacing: -1px;
-      line-height: 1;
     }
-    .jam-besar .tgl { font-size: 11px; color: var(--teks-sedang); font-weight: 600; margin-top: 3px; }
-
-    .cd-box { text-align: right; }
-    .cd-label { font-size: 9px; font-weight: 700; color: var(--teks-sedang); text-transform: uppercase; letter-spacing: .8px; }
-    .cd-nilai { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; margin-top: 2px; }
-    .cd-tag   { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-top: 3px; }
-
+    .jam-hero .cd-tag {
+      font-size: 10px; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px;
+    }
     .cd-piket  .cd-nilai { color: var(--oranye); }
     .cd-normal .cd-nilai { color: var(--hijau); }
     .cd-telat  .cd-nilai { color: var(--merah); }
     .cd-pulang .cd-nilai { color: var(--biru-pulang); }
     .cd-done   .cd-nilai { color: var(--hijau); }
-
     .cd-piket  .cd-tag { background:#fff3e0; color:var(--oranye); }
     .cd-normal .cd-tag { background:#e8f7ef; color:var(--hijau); }
     .cd-telat  .cd-tag { background:#fdecea; color:var(--merah); }
     .cd-pulang .cd-tag { background:#e8f0fb; color:var(--biru-pulang); }
     .cd-done   .cd-tag { background:#e8f7ef; color:var(--hijau); }
 
-    /* ── PANEL KANAN ── */
-    .panel-kanan {
-      flex: 0.85;
-      background: var(--putih);
-      border-radius: 16px;
-      padding: 20px 18px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 8px 30px rgba(0,0,0,.3);
+    /* Scanner */
+    .panel-judul { font-size: 10px; font-weight: 700; color: var(--teks-sedang); text-transform: uppercase; letter-spacing: 1.5px; }
+    .panel-sub   { font-size: 11px; color: var(--teks-sedang); margin-top: 1px; }
+
+    .scanner-wrap { position: relative; }
+    #qrInput {
+      width: 100%; padding: 13px 44px 13px 14px;
+      font-size: 17px; font-weight: 700; color: var(--teks-gelap);
+      background: var(--abu-muda); border: 2.5px solid var(--biru);
+      border-radius: 11px; outline: none; transition: .25s; letter-spacing: 1px;
+    }
+    #qrInput::placeholder { font-size: 12px; font-weight: 400; color: #aab; letter-spacing: 0; }
+    #qrInput:focus { border-color: var(--hijau); box-shadow: 0 0 0 4px rgba(39,174,96,.12); }
+    #qrInput:read-only { background: #fdecea; border-color: var(--merah); color: var(--merah); cursor: not-allowed; }
+    .scan-ikon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; opacity: .35; }
+
+    .kotak-status {
+      margin-top: 6px; padding: 10px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 700; color: var(--putih);
+      background: var(--hijau); opacity: 0; transition: opacity .3s; text-align: center;
     }
 
+    /* Grid 9 jam */
+    .grid-jam {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    }
+    .kj {
+      background: var(--abu-muda); border: 1.5px solid var(--abu-border);
+      border-radius: 8px; padding: 6px 8px; text-align: center;
+    }
+    .kj.guru   { border-color: #a8d5f5; background: #eef7fd; }
+    .kj.sabtu  { border-color: #c4e4c4; background: #edf7ed; }
+    .kj.yys    { border-color: #dac4f5; background: #f5eeff; }
+    .kj.cs     { border-color: #f5d9a0; background: #fdf6e3; }
+    .kj-label  { font-size: 8px; font-weight: 700; color: var(--teks-sedang); text-transform: uppercase; letter-spacing: .6px; }
+    .kj-nilai  { font-size: 16px; font-weight: 900; color: var(--biru); margin-top: 1px; font-variant-numeric: tabular-nums; }
+    .kj.yys .kj-nilai  { color: var(--ungu); }
+    .kj.cs  .kj-nilai  { color: var(--oranye); }
+    .kj.sabtu .kj-nilai { color: var(--hijau); }
+
+    /* Motivasi */
+    .kotak-motivasi {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+      flex-shrink: 0;
+      min-height: 52px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .motivasi-teks {
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.85);
+      line-height: 1.5;
+      transition: opacity .6s;
+    }
+    .motivasi-teks .motivasi-label {
+      font-size: 9px; font-weight: 700;
+      color: var(--emas); text-transform: uppercase;
+      letter-spacing: 1px; display: block; margin-bottom: 4px;
+    }
+
+    /* ══════════════════════════════════
+       PANEL KANAN
+    ══════════════════════════════════ */
+    .panel-kanan {
+      flex: 0.9;
+      background: var(--putih);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 30px rgba(0,0,0,.3);
+      overflow: hidden;
+    }
+
+    /* Foto besar */
+    .profil-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; flex-shrink: 0;
+    }
     .foto-ring {
-      width: 160px; height: 160px;
-      border-radius: 50%;
-      padding: 4px;
+      width: 200px; height: 200px;
+      border-radius: 50%; padding: 5px;
       background: conic-gradient(var(--biru) 0% 70%, #e0e7ef 70%);
       transition: background .4s;
-      margin: 10px 0 12px;
-      flex-shrink: 0;
+      margin: 8px 0 10px;
     }
     .foto-ring.sukses    { background: conic-gradient(var(--hijau) 0% 100%, #e0e7ef 100%); }
     .foto-ring.terlambat { background: conic-gradient(var(--oranye) 0% 55%, #e0e7ef 55%); }
     .foto-ring.pulang    { background: conic-gradient(var(--biru-pulang) 0% 100%, #e0e7ef 100%); }
     .foto-ring.gagal     { background: conic-gradient(var(--merah) 0% 100%, #e0e7ef 100%); }
-
     .foto-profil {
       width: 100%; height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid var(--putih);
-      display: block;
+      border-radius: 50%; object-fit: cover;
+      border: 5px solid var(--putih); display: block;
     }
-
-    .nama-profil { font-size: 19px; font-weight: 800; color: var(--teks-gelap); text-align: center; min-height: 26px; margin-bottom: 6px; }
-    .badge-unit  { font-size: 10px; font-weight: 700; padding: 2px 12px; border-radius: 20px; background: #e8f4fb; color: var(--biru); margin-bottom: 10px; }
+    .nama-profil {
+      font-size: 20px; font-weight: 800; color: var(--teks-gelap);
+      text-align: center; min-height: 26px; margin-bottom: 5px;
+    }
+    .badge-unit {
+      font-size: 10px; font-weight: 700; padding: 2px 14px;
+      border-radius: 20px; background: #e8f4fb; color: var(--biru); margin-bottom: 8px;
+    }
     .pesan-profil {
-      font-size: 14px; font-weight: 700;
-      color: var(--putih); background: #bdc3c7;
-      padding: 9px 22px; border-radius: 28px; transition: .3s;
+      font-size: 14px; font-weight: 700; color: var(--putih);
+      background: #bdc3c7; padding: 8px 22px; border-radius: 28px; transition: .3s;
     }
 
-    .info-terakhir {
-      margin-top: 12px; width: 100%;
-      background: var(--abu-muda);
-      border-radius: 9px;
-      padding: 9px 12px;
+    /* Strip 5 terakhir — vertikal di panel kanan */
+    .strip-judul {
+      font-size: 9px; font-weight: 700; color: var(--teks-sedang);
+      text-transform: uppercase; letter-spacing: 1px;
+      margin: 10px 0 6px; padding-top: 10px;
+      border-top: 1.5px dashed var(--abu-border); flex-shrink: 0;
     }
-    .it-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--teks-sedang); margin-bottom: 3px; }
-    .it-nama  { font-size: 12px; font-weight: 700; color: var(--teks-gelap); }
-    .it-waktu { font-size: 11px; color: var(--teks-sedang); }
-
-    /* ── STRIP 5 TERAKHIR ── */
-    .strip {
-      flex-shrink: 0;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 11px;
-      padding: 7px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      overflow: hidden;
+    .strip-list-v {
+      display: flex; flex-direction: column; gap: 5px;
+      flex: 1; overflow: hidden;
     }
-    .strip-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; flex-shrink: 0; }
-    .strip-list  { display: flex; gap: 7px; overflow: hidden; flex: 1; }
-    .strip-item  {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,.08);
-      border-radius: 28px;
-      padding: 3px 10px 3px 3px;
-      flex-shrink: 0;
+    .strip-item-v {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--abu-muda); border-radius: 30px;
+      padding: 4px 12px 4px 4px;
       animation: fadeIn .3s ease;
     }
-    @keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
-    .strip-item img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.25); }
-    .si-nama  { font-size: 11px; font-weight: 700; color: var(--putih); white-space: nowrap; }
-    .si-meta  { font-size: 9px; color: rgba(255,255,255,.45); white-space: nowrap; }
-    .strip-kosong { font-size: 11px; color: rgba(255,255,255,.3); font-style: italic; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+    .strip-item-v img {
+      width: 34px; height: 34px; border-radius: 50%;
+      object-fit: cover; border: 2px solid var(--abu-border); flex-shrink: 0;
+    }
+    .si-nama  { font-size: 12px; font-weight: 700; color: var(--teks-gelap); }
+    .si-meta  { font-size: 10px; color: var(--teks-sedang); }
+    .strip-kosong {
+      font-size: 11px; color: var(--teks-sedang);
+      font-style: italic; text-align: center; padding: 10px 0;
+    }
 
     iframe { display: none !important; }
   </style>
@@ -368,7 +338,7 @@
   <div class="header">
     <div class="brand">
       <div class="logo-box">
-        <img src="logo.png" alt="Logo SIT Ar-Rahmah" style="height:36px;width:auto;display:block;">
+        <img src="logo.png" alt="Logo" style="height:32px;width:auto;display:block;">
         <div>
           <div class="logo-nama">SIT Ar-Rahmah</div>
           <div class="logo-sub">Yayasan Ar-Rahmah Sulawesi</div>
@@ -394,14 +364,38 @@
 
     <!-- PANEL KIRI -->
     <div class="panel-kiri">
+
+      <!-- JAM HERO BESAR -->
+      <div class="jam-hero" id="jamHero">
+        <div class="tgl" id="dispTgl">Memuat…</div>
+        <div class="angka" id="dispJam">00:00:00</div>
+        <div class="cd-wrap" id="cdBox">
+          <span class="cd-prefix" id="cdPrefix">JAM BERIKUTNYA :</span>
+          <span class="cd-nilai" id="cdNilai">--</span>
+          <span class="cd-tag"   id="cdTag">--</span>
+        </div>
+      </div>
+
+      <!-- SCANNER -->
       <div>
         <div class="panel-judul">Presensi Kehadiran</div>
         <div class="panel-sub">Bismillah — silakan scan ID Card Anda</div>
       </div>
+      <div>
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSd_1_DN7WoBMtZEaRD5UhXT55YcNBqiqS2s4y9kKsDjxSP2OA/formResponse"
+              method="POST" target="hidden_iframe" id="presensiForm">
+          <div class="scanner-wrap">
+            <input type="text" name="entry.87698692" id="qrInput"
+                   placeholder="Menunggu scan ID Card…"
+                   autocomplete="off" autofocus inputmode="none">
+            <div class="scan-ikon">⬛</div>
+          </div>
+        </form>
+        <div class="kotak-status" id="kotakStatus"></div>
+      </div>
 
-      <!-- 9 kartu jam sesuai peta rumus GSheet -->
+      <!-- 9 KARTU JAM — di bawah scanner -->
       <div class="grid-jam">
-        <!-- Baris 1: Guru normal -->
         <div class="kj guru">
           <div class="kj-label">Masuk Guru</div>
           <div class="kj-nilai" id="kj-F3">--:--</div>
@@ -414,7 +408,6 @@
           <div class="kj-label">Masuk Yayasan</div>
           <div class="kj-nilai" id="kj-N2">--:--</div>
         </div>
-        <!-- Baris 2: Sabtu + Yayasan -->
         <div class="kj sabtu">
           <div class="kj-label">Masuk Sabtu</div>
           <div class="kj-nilai" id="kj-K3">--:--</div>
@@ -427,7 +420,6 @@
           <div class="kj-label">Pulang Yayasan</div>
           <div class="kj-nilai" id="kj-N1">--:--</div>
         </div>
-        <!-- Baris 3: CS/Security -->
         <div class="kj cs">
           <div class="kj-label">Masuk CS</div>
           <div class="kj-nilai" id="kj-N3">--:--</div>
@@ -442,60 +434,40 @@
         </div>
       </div>
 
-      <!-- Scanner -->
-      <div>
-        <form action="https://docs.google.com/forms/d/e/1FAIpQLSd_1_DN7WoBMtZEaRD5UhXT55YcNBqiqS2s4y9kKsDjxSP2OA/formResponse"
-              method="POST" target="hidden_iframe" id="presensiForm">
-          <div class="scanner-wrap">
-            <input type="text" name="entry.87698692" id="qrInput"
-                   placeholder="Menunggu scan ID Card…"
-                   autocomplete="off" autofocus inputmode="none">
-            <div class="scan-ikon">⬛</div>
-          </div>
-        </form>
-        <div class="kotak-status" id="kotakStatus"></div>
+      <!-- MOTIVASI / AYAT / HADIS -->
+      <div class="kotak-motivasi">
+        <div class="motivasi-teks" id="motivasiTeks">
+          <span class="motivasi-label" id="motivasiLabel">Motivasi</span>
+          <span id="motivasiIsi">Memuat…</span>
+        </div>
       </div>
 
-      <!-- Jam besar + countdown -->
-      <div class="footer-waktu">
-        <div class="jam-besar">
-          <div class="angka" id="dispJam">00:00:00</div>
-          <div class="tgl"   id="dispTgl">Memuat…</div>
-        </div>
-        <div class="cd-box" id="cdBox">
-          <div class="cd-label" id="cdLabel">—</div>
-          <div class="cd-nilai" id="cdNilai">--</div>
-          <div class="cd-tag"   id="cdTag">--</div>
-        </div>
-      </div>
-    </div>
+    </div><!-- /panel-kiri -->
 
     <!-- PANEL KANAN -->
     <div class="panel-kanan">
-      <div class="panel-judul" style="align-self:flex-start">Profil Pegawai</div>
-      <div class="foto-ring" id="fotoRing">
-        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-             alt="Foto" class="foto-profil" id="popFoto">
+      <div class="panel-judul">Profil Pegawai</div>
+
+      <!-- FOTO BESAR -->
+      <div class="profil-wrap">
+        <div class="foto-ring" id="fotoRing">
+          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+               alt="Foto" class="foto-profil" id="popFoto">
+        </div>
+        <div class="nama-profil" id="popNama">Siap Menerima Scan</div>
+        <div class="badge-unit"  id="popUnit">SDIT</div>
+        <div class="pesan-profil" id="popPesan">Menunggu…</div>
       </div>
-      <div class="nama-profil" id="popNama">Siap Menerima Scan</div>
-      <div class="badge-unit"  id="popUnit">SDIT</div>
-      <div class="pesan-profil" id="popPesan">Menunggu…</div>
-      <div class="info-terakhir">
-        <div class="it-label">⏱ Terakhir Scan</div>
-        <div class="it-nama"  id="itNama">—</div>
-        <div class="it-waktu" id="itWaktu">—</div>
+
+      <!-- 5 TERAKHIR vertikal -->
+      <div class="strip-judul">⏱ 5 Scan Terakhir</div>
+      <div class="strip-list-v" id="stripList">
+        <div class="strip-kosong">Belum ada scan hari ini…</div>
       </div>
-    </div>
+
+    </div><!-- /panel-kanan -->
 
   </div><!-- /konten -->
-
-  <!-- STRIP 5 TERAKHIR -->
-  <div class="strip">
-    <div class="strip-label">5 Terakhir</div>
-    <div class="strip-list" id="stripList">
-      <div class="strip-kosong">Belum ada scan hari ini…</div>
-    </div>
-  </div>
 
 </div><!-- /layarPresensi -->
 
@@ -503,14 +475,14 @@
 
 <script>
 // ══════════════════════════════════════════════════
-// KONFIGURASI — SESUAIKAN INI
+// KONFIGURASI
 // ══════════════════════════════════════════════════
-const GAS_URL       = "GANTI_DENGAN_URL_GAS_WEB_APP_ANDA";
-const SANDI         = "arrahmah2026";
-const FOTO_DEFAULT  = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-const COOLDOWN_MS   = 10 * 60 * 1000; // 10 menit
+const GAS_URL      = "GANTI_DENGAN_URL_GAS_WEB_APP_ANDA";
+const SANDI        = "arrahmah2026";
+const FOTO_DEFAULT = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+const COOLDOWN_MS  = 10 * 60 * 1000;
+const CACHE_KEY    = 'jamCacheSDIT';
 
-// Fallback jika GAS tidak terhubung
 const JAM_FALLBACK = {
   jamMasukGuru    : "07:00",
   jamPulangGuru   : "14:00",
@@ -522,6 +494,42 @@ const JAM_FALLBACK = {
   jamPulangCS     : "15:00",
   jamMasukCSSabtu : "07:15",
 };
+
+// ══════════════════════════════════════════════════
+// KONTEN MOTIVASI — bergantian setiap 10 detik
+// ══════════════════════════════════════════════════
+const MOTIVASI = [
+  { label: "Ayat Al-Qur'an", isi: "\"Dan tolong-menolonglah kamu dalam (mengerjakan) kebajikan dan takwa.\" (QS. Al-Ma'idah: 2)" },
+  { label: "Hadis Nabi ﷺ",   isi: "\"Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain.\" (HR. Ahmad)" },
+  { label: "Motivasi",        isi: "Hadir tepat waktu adalah bentuk menghargai amanah yang telah diberikan." },
+  { label: "Ayat Al-Qur'an", isi: "\"Sesungguhnya Allah tidak mengubah keadaan suatu kaum sebelum mereka mengubah keadaan diri mereka sendiri.\" (QS. Ar-Ra'd: 11)" },
+  { label: "Hadis Nabi ﷺ",   isi: "\"Sesungguhnya Allah mencintai jika seseorang melakukan pekerjaan, dia melakukannya dengan itqan (profesional).\" (HR. Baihaqi)" },
+  { label: "Motivasi",        isi: "Guru yang hadir lebih awal menanamkan kedisiplinan tanpa kata-kata." },
+  { label: "Ayat Al-Qur'an", isi: "\"Dan bahwa manusia hanya memperoleh apa yang telah diusahakannya.\" (QS. An-Najm: 39)" },
+  { label: "Hadis Nabi ﷺ",   isi: "\"Mulailah harimu dengan bismillah, karena setiap pekerjaan baik tanpanya terputus berkahnya.\" (HR. Abu Dawud)" },
+  { label: "Motivasi",        isi: "Setiap langkah menuju sekolah adalah langkah menuju surga bagi pendidik yang ikhlas." },
+  { label: "Ayat Al-Qur'an", isi: "\"Wahai orang-orang yang beriman! Bertakwalah kepada Allah dan hendaklah setiap orang memperhatikan apa yang telah diperbuatnya untuk hari esok.\" (QS. Al-Hasyr: 18)" },
+];
+
+let motivasiIdx = 0;
+function tampilkanMotivasiBerikut() {
+  const el    = document.getElementById('motivasiTeks');
+  const label = document.getElementById('motivasiLabel');
+  const isi   = document.getElementById('motivasiIsi');
+  el.style.opacity = '0';
+  setTimeout(() => {
+    motivasiIdx = (motivasiIdx + 1) % MOTIVASI.length;
+    label.innerText = MOTIVASI[motivasiIdx].label;
+    isi.innerText   = MOTIVASI[motivasiIdx].isi;
+    el.style.opacity = '1';
+  }, 600);
+}
+function inisialisasiMotivasiAwal() {
+  motivasiIdx = Math.floor(Math.random() * MOTIVASI.length);
+  document.getElementById('motivasiLabel').innerText = MOTIVASI[motivasiIdx].label;
+  document.getElementById('motivasiIsi').innerText   = MOTIVASI[motivasiIdx].isi;
+  setInterval(tampilkanMotivasiBerikut, 10000);
+}
 
 // ══════════════════════════════════════════════════
 // DATABASE PEGAWAI
@@ -628,8 +636,8 @@ const dataPegawai = {
 // STATE
 // ══════════════════════════════════════════════════
 let JAM         = { ...JAM_FALLBACK };
-let scanHistory = {};   // cooldown per ID
-let riwayat     = [];   // strip 5 terakhir
+let scanHistory = {};
+let riwayat     = [];
 let isLock      = false;
 let audioAktif  = null;
 
@@ -639,7 +647,6 @@ function putarAudio(file) {
   audioAktif.play().catch(() => {});
 }
 
-// Elemen
 const elInput  = document.getElementById('qrInput');
 const elForm   = document.getElementById('presensiForm');
 const elStatus = document.getElementById('kotakStatus');
@@ -648,8 +655,6 @@ const elFoto   = document.getElementById('popFoto');
 const elNama   = document.getElementById('popNama');
 const elUnit   = document.getElementById('popUnit');
 const elPesan  = document.getElementById('popPesan');
-const elItNama = document.getElementById('itNama');
-const elItWkt  = document.getElementById('itWaktu');
 const elStrip  = document.getElementById('stripList');
 
 // ══════════════════════════════════════════════════
@@ -669,24 +674,15 @@ const elStrip  = document.getElementById('stripList');
 })();
 
 // ══════════════════════════════════════════════════
-// FETCH JAM DARI GAS — CACHE HARIAN (localStorage)
-// Fetch ke GAS hanya 1x per hari.
-// Tombol "Perbarui Jam" bisa paksa fetch ulang.
+// FETCH JAM — CACHE HARIAN
 // ══════════════════════════════════════════════════
-const CACHE_KEY = 'jamCacheSDIT';
-
 function tanggalHariIni() {
   const d = new Date();
   return `${d.getFullYear()}-${f2(d.getMonth()+1)}-${f2(d.getDate())}`;
 }
 
 function terapkanJam(data, sumber) {
-  // Merge ke objek JAM global, fallback jika null
-  Object.keys(JAM_FALLBACK).forEach(k => {
-    JAM[k] = data[k] || JAM_FALLBACK[k];
-  });
-
-  // Tampilkan ke 9 kartu
+  Object.keys(JAM_FALLBACK).forEach(k => { JAM[k] = data[k] || JAM_FALLBACK[k]; });
   setTxt('kj-F3', JAM.jamMasukGuru);
   setTxt('kj-F4', JAM.jamPulangGuru);
   setTxt('kj-K3', JAM.jamMasukSabtu);
@@ -696,27 +692,19 @@ function terapkanJam(data, sumber) {
   setTxt('kj-N3', JAM.jamMasukCS);
   setTxt('kj-N4', JAM.jamPulangCS);
   setTxt('kj-N5', JAM.jamMasukCSSabtu);
-
-  // Badge info sumber
   const waktu = data.diperbarui || '--:--';
   const badge = document.getElementById('badgeLive');
   badge.className = 'badge-live';
-  if (sumber === 'cache') {
-    badge.innerHTML = `<div class="dot"></div><span>JAM DARI CACHE — ${waktu}</span>`;
-  } else {
-    badge.innerHTML = `<div class="dot"></div><span>JAM DIPERBARUI DARI GSHEET — ${waktu}</span>`;
-  }
+  badge.innerHTML = sumber === 'cache'
+    ? `<div class="dot"></div><span>JAM DARI CACHE — ${waktu}</span>`
+    : `<div class="dot"></div><span>JAM DIPERBARUI DARI GSHEET — ${waktu}</span>`;
 }
 
 async function fetchDariGAS() {
   const res  = await fetch(GAS_URL + "?action=jamConfig&t=" + Date.now());
   const data = await res.json();
   if (data.error) throw new Error(data.error);
-  // Simpan ke cache dengan tanggal hari ini
-  localStorage.setItem(CACHE_KEY, JSON.stringify({
-    tanggal : tanggalHariIni(),
-    jam     : data
-  }));
+  localStorage.setItem(CACHE_KEY, JSON.stringify({ tanggal: tanggalHariIni(), jam: data }));
   return data;
 }
 
@@ -724,61 +712,53 @@ async function inisialisasiJam(forceRefresh = false) {
   try {
     const cache   = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
     const hariIni = tanggalHariIni();
-
     if (!forceRefresh && cache && cache.tanggal === hariIni) {
-      // ✅ Pakai cache — tidak perlu hit GAS
       terapkanJam(cache.jam, 'cache');
     } else {
-      // 🌐 Fetch baru dari GAS (hari baru atau force refresh)
       const data = await fetchDariGAS();
       terapkanJam(data, 'gsheet');
     }
   } catch (e) {
-    console.warn('GAS gagal, pakai fallback:', e);
+    console.warn('GAS gagal:', e);
     const badge = document.getElementById('badgeLive');
     badge.className = 'badge-live error';
     badge.innerHTML = `<div class="dot"></div><span>Fallback — GAS offline</span>`;
     terapkanJam(JAM_FALLBACK, 'fallback');
   }
-
-  // Sembunyikan loading, tampilkan layar presensi
   const ld = document.getElementById('layarLoading');
   ld.style.opacity = '0';
   setTimeout(() => { ld.style.display = 'none'; }, 400);
   document.getElementById('layarPresensi').style.display = 'flex';
   elInput.focus();
+  inisialisasiMotivasiAwal();
 }
 
-// Tombol "Perbarui Jam" → paksa fetch ulang dari GAS & update cache
 document.getElementById('btnRefresh').addEventListener('click', async () => {
   const ld = document.getElementById('layarLoading');
   ld.style.opacity = '1'; ld.style.display = 'flex';
-  await inisialisasiJam(true); // forceRefresh = true
+  await inisialisasiJam(true);
 });
 
 // ══════════════════════════════════════════════════
 // HELPER
 // ══════════════════════════════════════════════════
 function setTxt(id, v) { const el = document.getElementById(id); if(el) el.innerText = v||'--'; }
-function setEl(id, h)  { const el = document.getElementById(id); if(el) el.innerHTML = h; }
 function f2(n) { return n < 10 ? '0'+n : ''+n; }
 function namaRingkas(n) { return n.split(',')[0].split(' ').slice(0,2).join(' '); }
 
 // ══════════════════════════════════════════════════
 // JAM + COUNTDOWN
-// Countdown berbasis jamMasukGuru (F3) untuk hari kerja
 // ══════════════════════════════════════════════════
 function updateWaktu() {
-  const now     = new Date();
+  const now  = new Date();
   const H = now.getHours(), M = now.getMinutes(), S = now.getSeconds();
   const isSabtu = now.getDay() === 6;
-  const HARI    = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-  const BULAN   = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
   setTxt('dispJam', `${f2(H)}:${f2(M)}:${f2(S)}`);
   setTxt('dispTgl', `${HARI[now.getDay()]}, ${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`);
 
-  // Batas masuk sesuai hari
   const batasMasuk  = isSabtu ? JAM.jamMasukSabtu  : JAM.jamMasukGuru;
   const batasPulang = isSabtu ? JAM.jamMasukSabtu  : JAM.jamPulangGuru;
 
@@ -792,116 +772,115 @@ function updateWaktu() {
   }
   function fmtSisaJam(ms) {
     const d = Math.max(0, Math.floor(ms/1000));
-    const jj = Math.floor(d/3600), mm = Math.floor((d%3600)/60), ss = d%60;
-    return `${jj}j : ${f2(mm)}m : ${f2(ss)}d`;
+    return `${Math.floor(d/3600)}j : ${f2(Math.floor((d%3600)/60))}m : ${f2(d%60)}d`;
   }
 
   const sisMasuk  = toMs(batasMasuk);
   const sisPulang = toMs(batasPulang);
-  const cdBox     = document.getElementById('cdBox');
-  cdBox.className = 'cd-box';
+  const cdBox = document.getElementById('cdBox');
+  cdBox.className = 'cd-wrap';
 
   if (sisMasuk > 0) {
     cdBox.classList.add('cd-piket');
-    setTxt('cdLabel', `Batas Masuk (${batasMasuk})`);
-    setTxt('cdNilai', fmtSisa(sisMasuk));
-    setTxt('cdTag',   isSabtu ? 'SABTU' : 'HARI KERJA');
+    setTxt('cdPrefix', `JAM BERIKUTNYA :`);
+    setTxt('cdNilai',  fmtSisa(sisMasuk));
+    setTxt('cdTag',    isSabtu ? 'BATAS SABTU' : 'BATAS MASUK');
   } else if (H < 12) {
     cdBox.classList.add('cd-telat');
-    setTxt('cdLabel', 'Batas Masuk Berakhir');
-    setTxt('cdNilai', 'TERLAMBAT');
-    setTxt('cdTag',   isSabtu ? 'SABTU - TELAT' : 'HARI KERJA - TELAT');
+    setTxt('cdPrefix', 'JAM BERIKUTNYA :');
+    setTxt('cdNilai',  'TERLAMBAT');
+    setTxt('cdTag',    isSabtu ? 'SABTU - TELAT' : 'HARI KERJA - TELAT');
   } else if (sisPulang > 0) {
     cdBox.classList.add('cd-pulang');
-    setTxt('cdLabel', `Menuju Pulang (${batasPulang})`);
-    setTxt('cdNilai', fmtSisaJam(sisPulang));
-    setTxt('cdTag',   'JAM KERJA');
+    setTxt('cdPrefix', 'MENUJU PULANG :');
+    setTxt('cdNilai',  fmtSisaJam(sisPulang));
+    setTxt('cdTag',    'JAM KERJA');
   } else {
     cdBox.classList.add('cd-done');
-    setTxt('cdLabel', 'Waktu Kerja Selesai');
-    setTxt('cdNilai', 'SELESAI');
-    setTxt('cdTag',   'MODE PULANG');
+    setTxt('cdPrefix', 'JAM BERIKUTNYA :');
+    setTxt('cdNilai',  'SELESAI');
+    setTxt('cdTag',    'MODE PULANG');
   }
 }
 setInterval(updateWaktu, 1000);
 updateWaktu();
 
 // ══════════════════════════════════════════════════
-// STRIP 5 TERAKHIR
+// STRIP 5 TERAKHIR — vertikal di panel kanan
+// Foto pegawai terakhir scan tetap tampil di profil
+// sampai ada yang scan berikutnya
 // ══════════════════════════════════════════════════
 function renderStrip() {
   if (!riwayat.length) {
     elStrip.innerHTML = '<div class="strip-kosong">Belum ada scan hari ini…</div>';
     return;
   }
-  elStrip.innerHTML = [...riwayat].reverse().map(r => `
-    <div class="strip-item">
+  elStrip.innerHTML = [...riwayat].reverse().map((r, i) => `
+    <div class="strip-item-v">
       <img src="${r.foto}" onerror="this.src='${FOTO_DEFAULT}'" alt="">
       <div>
         <div class="si-nama">${r.nama}</div>
-        <div class="si-meta">${r.waktu}</div>
+        <div class="si-meta">${r.waktu} · ${r.sesi}</div>
       </div>
     </div>`).join('');
 }
 
 // ══════════════════════════════════════════════════
-// RESET PANEL KANAN
+// RESET PANEL — foto tetap sampai scan berikutnya
 // ══════════════════════════════════════════════════
-function resetPanel() {
-  elFoto.src         = FOTO_DEFAULT;
-  elNama.innerText   = 'Siap Menerima Scan';
-  elUnit.innerText   = 'SDIT';
-  elPesan.innerText  = 'Menunggu…';
-  elPesan.style.background = '#bdc3c7';
-  elRing.className   = 'foto-ring';
+function resetPanelSoft() {
+  // Nama & pesan reset, tapi FOTO TETAP (sesuai poin 3)
+  elNama.innerText          = riwayat.length ? namaRingkas(riwayat[riwayat.length-1].namaPanjang) : 'Siap Menerima Scan';
+  elUnit.innerText          = 'SDIT';
+  elPesan.innerText         = 'Menunggu…';
+  elPesan.style.background  = '#bdc3c7';
+  // Ring kembali ke default tapi foto tetap
+  elRing.className          = 'foto-ring';
+  if (riwayat.length) {
+    elFoto.src = riwayat[riwayat.length-1].foto;
+  } else {
+    elFoto.src = FOTO_DEFAULT;
+  }
 }
 
 // ══════════════════════════════════════════════════
 // EKSEKUSI PRESENSI
-// HTML hanya: tampilkan profil + feedback visual + submit ke GForm
-// Semua kalkulasi Status TERLAMBAT/TEPAT dilakukan di GSheet
 // ══════════════════════════════════════════════════
 function eksekusi(id) {
   const now  = Date.now();
   const nowD = new Date();
-  const H = nowD.getHours();
+  const H = nowD.getHours(), M = nowD.getMinutes();
+  const isSabtu = nowD.getDay() === 6;
 
   isLock = true;
   elInput.readOnly    = true;
   elInput.placeholder = 'MOHON TUNGGU…';
 
-  const pegawai  = dataPegawai[id];
-  const namaTmp  = pegawai ? pegawai.nama : `(${id})`;
-  const fotoTmp  = pegawai ? pegawai.foto : FOTO_DEFAULT;
+  const pegawai = dataPegawai[id];
+  const namaTmp = pegawai ? pegawai.nama : `(${id})`;
+  const fotoTmp = pegawai ? pegawai.foto : FOTO_DEFAULT;
 
   elNama.innerText = namaTmp;
   elFoto.src       = fotoTmp;
   elFoto.onerror   = () => { elFoto.src = FOTO_DEFAULT; };
   elUnit.innerText = 'SDIT';
 
-  // ── COOLDOWN (double scan) ──
+  // COOLDOWN
   if (scanHistory[id] && (now - scanHistory[id] < COOLDOWN_MS)) {
     putarAudio('sudah_scan.wav');
-    elStatus.innerHTML         = '⚠️ Sudah presensi. Tunggu 10 menit.';
-    elStatus.style.background  = '#e67e22';
-    elStatus.style.opacity     = '1';
-    elPesan.innerText          = '⚠️ SUDAH PRESENSI';
-    elPesan.style.background   = '#e67e22';
-    elRing.className           = 'foto-ring gagal';
+    elStatus.innerHTML        = '⚠️ Sudah presensi. Tunggu 10 menit.';
+    elStatus.style.background = '#e67e22';
+    elStatus.style.opacity    = '1';
+    elPesan.innerText         = '⚠️ SUDAH PRESENSI';
+    elPesan.style.background  = '#e67e22';
+    elRing.className          = 'foto-ring gagal';
   }
-  // ── DATANG (sebelum jam 12) ──
+  // DATANG
   else if (H < 12) {
     scanHistory[id] = now;
-
-    // Cek terlambat berdasarkan jam masuk dari GSheet (F3)
-    const [bH, bM] = (JAM.jamMasukGuru || "07:00").split(':').map(Number);
-    const isSabtu  = nowD.getDay() === 6;
-    const [sH, sM] = (JAM.jamMasukSabtu || "08:00").split(':').map(Number);
-    const batasTerlambat = isSabtu
-      ? (H > sH || (H === sH && nowD.getMinutes() >= sM))
-      : (H > bH || (H === bH && nowD.getMinutes() >= bM));
-
-    if (batasTerlambat) {
+    const [bH, bM] = (isSabtu ? JAM.jamMasukSabtu : JAM.jamMasukGuru).split(':').map(Number);
+    const terlambat = H > bH || (H === bH && M >= bM);
+    if (terlambat) {
       putarAudio('terlambat.wav');
       elStatus.innerHTML        = '🕐 Presensi Datang (Terlambat)';
       elStatus.style.background = '#e74c3c';
@@ -919,9 +898,9 @@ function eksekusi(id) {
       elRing.className          = 'foto-ring sukses';
     }
     elForm.submit();
-    tambahRiwayat(namaTmp, fotoTmp, nowD);
+    tambahRiwayat(namaTmp, fotoTmp, nowD, 'Datang');
   }
-  // ── PULANG (jam 12 ke atas) ──
+  // PULANG
   else {
     scanHistory[id] = now;
     putarAudio('pulang.wav');
@@ -932,95 +911,77 @@ function eksekusi(id) {
     elPesan.style.background  = '#2980b9';
     elRing.className          = 'foto-ring pulang';
     elForm.submit();
-    tambahRiwayat(namaTmp, fotoTmp, nowD);
+    tambahRiwayat(namaTmp, fotoTmp, nowD, 'Pulang');
   }
 
-  elItNama.innerText = namaTmp;
-  elItWkt.innerText  = `Terakhir: ${f2(nowD.getHours())}:${f2(nowD.getMinutes())}:${f2(nowD.getSeconds())}`;
-  elInput.value      = '';
+  elInput.value = '';
 
   setTimeout(() => {
     elStatus.style.opacity = '0';
-    resetPanel();
+    resetPanelSoft(); // foto tetap!
     isLock              = false;
     elInput.readOnly    = false;
     elInput.placeholder = 'Menunggu scan ID Card…';
-    elInput.focus();
   }, 2500);
 }
 
-function tambahRiwayat(nama, foto, d) {
-  riwayat.push({ nama: namaRingkas(nama), foto, waktu: `${f2(d.getHours())}:${f2(d.getMinutes())}:${f2(d.getSeconds())}` });
+function tambahRiwayat(nama, foto, d, sesi) {
+  riwayat.push({
+    namaPanjang: nama,
+    nama  : namaRingkas(nama),
+    foto,
+    waktu : `${f2(d.getHours())}:${f2(d.getMinutes())}:${f2(d.getSeconds())}`,
+    sesi
+  });
   if (riwayat.length > 5) riwayat.shift();
   renderStrip();
 }
 
 // ══════════════════════════════════════════════════
-// TRIGGER SCANNER — KURSOR TERKUNCI DI INPUT
+// KUNCI FOKUS KURSOR
 // ══════════════════════════════════════════════════
-
-// Kunci fokus: SEMUA event yang bisa mencuri fokus ditangkal
 function kunciFokus() {
   if (!isLock) {
     elInput.focus();
-    // Paksa kursor ke akhir teks
     const len = elInput.value.length;
     elInput.setSelectionRange(len, len);
   }
 }
 
-// Setiap klik di mana pun → kembalikan fokus ke input
-document.addEventListener('click',     () => kunciFokus());
+document.addEventListener('click', () => kunciFokus());
 document.addEventListener('mousedown', (e) => {
-  // Cegah elemen lain mencuri fokus, kecuali tombol btnRefresh
   if (e.target !== document.getElementById('btnRefresh') && e.target !== elInput) {
     e.preventDefault();
   }
 });
-
-// Saat input kehilangan fokus → paksa balik dalam 1ms
-elInput.addEventListener('blur', () => {
-  setTimeout(kunciFokus, 1);
-});
-
-// Cegah Tab, Arrow keys, dll memindahkan fokus
+elInput.addEventListener('blur', () => setTimeout(kunciFokus, 1));
 elInput.addEventListener('keydown', e => {
   if (e.key === 'Tab') { e.preventDefault(); return; }
   if (e.key === 'Enter') {
     e.preventDefault();
     if (!isLock && elInput.value.trim()) eksekusi(elInput.value.trim());
-    return;
   }
 });
-
-// Auto-trigger saat panjang ≥ 10 (format SDIT-XXXXX)
 elInput.addEventListener('input', () => {
   if (!isLock && elInput.value.trim().length >= 10) eksekusi(elInput.value.trim());
 });
 
 // ══════════════════════════════════════════════════
-// FULLSCREEN OTOMATIS
+// FULLSCREEN
 // ══════════════════════════════════════════════════
 function mintaFullscreen() {
   const el = document.documentElement;
-  if (el.requestFullscreen)       el.requestFullscreen();
+  if (el.requestFullscreen)            el.requestFullscreen();
   else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   else if (el.mozRequestFullScreen)    el.mozRequestFullScreen();
-  else if (el.msRequestFullscreen)     el.msRequestFullscreen();
 }
-
-// Fullscreen saat pertama kali user klik (browser butuh gesture)
 document.addEventListener('click', mintaFullscreen, { once: true });
-
-// Juga coba saat halaman pertama dimuat (mungkin berhasil di beberapa browser)
-window.addEventListener('load', () => {
-  setTimeout(mintaFullscreen, 500);
-});
+window.addEventListener('load', () => setTimeout(mintaFullscreen, 500));
 
 // ══════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════
-inisialisasiJam(); // fetch hanya jika belum ada cache hari ini
+inisialisasiJam();
 </script>
 </body>
 </html>
