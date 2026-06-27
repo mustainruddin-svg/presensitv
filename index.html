@@ -70,6 +70,9 @@
 
     /* ── LAYOUT UTAMA ── */
     #layarPresensi {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
       display: none;
       flex-direction: column;
       height: 100vh;
@@ -97,7 +100,6 @@
       align-items: center;
       gap: 8px;
     }
-    .logo-box .ikon-logo { font-size: 20px; }
     .logo-nama  { color: var(--putih); font-size: 14px; font-weight: 800; line-height: 1.1; }
     .logo-sub   { color: rgba(255,255,255,.65); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
     .unit-grup  { display: flex; flex-direction: column; gap: 2px; }
@@ -366,7 +368,7 @@
   <div class="header">
     <div class="brand">
       <div class="logo-box">
-        <div class="ikon-logo">🕌</div>
+        <img src="logo.png" alt="Logo SIT Ar-Rahmah" style="height:36px;width:auto;display:block;">
         <div>
           <div class="logo-nama">SIT Ar-Rahmah</div>
           <div class="logo-sub">Yayasan Ar-Rahmah Sulawesi</div>
@@ -503,7 +505,7 @@
 // ══════════════════════════════════════════════════
 // KONFIGURASI — SESUAIKAN INI
 // ══════════════════════════════════════════════════
-const GAS_URL       = "https://script.google.com/macros/s/AKfycbwGQBXVQ3PGzIydLGRrbgTlta5BssIQROXOPulsNeFPhbsXf4QUGPUia2VnKBT_4I8VyQ/exec";
+const GAS_URL       = "GANTI_DENGAN_URL_GAS_WEB_APP_ANDA";
 const SANDI         = "arrahmah2026";
 const FOTO_DEFAULT  = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 const COOLDOWN_MS   = 10 * 60 * 1000; // 10 menit
@@ -629,6 +631,13 @@ let JAM         = { ...JAM_FALLBACK };
 let scanHistory = {};   // cooldown per ID
 let riwayat     = [];   // strip 5 terakhir
 let isLock      = false;
+let audioAktif  = null;
+
+function putarAudio(file) {
+  if (audioAktif) { audioAktif.pause(); audioAktif.currentTime = 0; }
+  audioAktif = new Audio(file);
+  audioAktif.play().catch(() => {});
+}
 
 // Elemen
 const elInput  = document.getElementById('qrInput');
@@ -872,6 +881,7 @@ function eksekusi(id) {
 
   // ── COOLDOWN (double scan) ──
   if (scanHistory[id] && (now - scanHistory[id] < COOLDOWN_MS)) {
+    putarAudio('sudah_scan.wav');
     elStatus.innerHTML         = '⚠️ Sudah presensi. Tunggu 10 menit.';
     elStatus.style.background  = '#e67e22';
     elStatus.style.opacity     = '1';
@@ -882,18 +892,39 @@ function eksekusi(id) {
   // ── DATANG (sebelum jam 12) ──
   else if (H < 12) {
     scanHistory[id] = now;
-    elStatus.innerHTML        = '✅ Presensi Datang Berhasil!';
-    elStatus.style.background = '#27ae60';
-    elStatus.style.opacity    = '1';
-    elPesan.innerText         = '🟢 DATANG';
-    elPesan.style.background  = '#27ae60';
-    elRing.className          = 'foto-ring sukses';
+
+    // Cek terlambat berdasarkan jam masuk dari GSheet (F3)
+    const [bH, bM] = (JAM.jamMasukGuru || "07:00").split(':').map(Number);
+    const isSabtu  = nowD.getDay() === 6;
+    const [sH, sM] = (JAM.jamMasukSabtu || "08:00").split(':').map(Number);
+    const batasTerlambat = isSabtu
+      ? (H > sH || (H === sH && nowD.getMinutes() >= sM))
+      : (H > bH || (H === bH && nowD.getMinutes() >= bM));
+
+    if (batasTerlambat) {
+      putarAudio('terlambat.wav');
+      elStatus.innerHTML        = '🕐 Presensi Datang (Terlambat)';
+      elStatus.style.background = '#e74c3c';
+      elStatus.style.opacity    = '1';
+      elPesan.innerText         = '🔴 TERLAMBAT';
+      elPesan.style.background  = '#e74c3c';
+      elRing.className          = 'foto-ring terlambat';
+    } else {
+      putarAudio('datang_berhasil.wav');
+      elStatus.innerHTML        = '✅ Presensi Datang Berhasil!';
+      elStatus.style.background = '#27ae60';
+      elStatus.style.opacity    = '1';
+      elPesan.innerText         = '🟢 DATANG';
+      elPesan.style.background  = '#27ae60';
+      elRing.className          = 'foto-ring sukses';
+    }
     elForm.submit();
     tambahRiwayat(namaTmp, fotoTmp, nowD);
   }
   // ── PULANG (jam 12 ke atas) ──
   else {
     scanHistory[id] = now;
+    putarAudio('pulang.wav');
     elStatus.innerHTML        = '✅ Presensi Pulang Berhasil!';
     elStatus.style.background = '#2980b9';
     elStatus.style.opacity    = '1';
@@ -925,18 +956,65 @@ function tambahRiwayat(nama, foto, d) {
 }
 
 // ══════════════════════════════════════════════════
-// TRIGGER SCANNER
+// TRIGGER SCANNER — KURSOR TERKUNCI DI INPUT
 // ══════════════════════════════════════════════════
-document.addEventListener('click', () => { if (!isLock) elInput.focus(); });
-elInput.addEventListener('blur',   () => { if (!isLock) setTimeout(() => elInput.focus(), 10); });
+
+// Kunci fokus: SEMUA event yang bisa mencuri fokus ditangkal
+function kunciFokus() {
+  if (!isLock) {
+    elInput.focus();
+    // Paksa kursor ke akhir teks
+    const len = elInput.value.length;
+    elInput.setSelectionRange(len, len);
+  }
+}
+
+// Setiap klik di mana pun → kembalikan fokus ke input
+document.addEventListener('click',     () => kunciFokus());
+document.addEventListener('mousedown', (e) => {
+  // Cegah elemen lain mencuri fokus, kecuali tombol btnRefresh
+  if (e.target !== document.getElementById('btnRefresh') && e.target !== elInput) {
+    e.preventDefault();
+  }
+});
+
+// Saat input kehilangan fokus → paksa balik dalam 1ms
+elInput.addEventListener('blur', () => {
+  setTimeout(kunciFokus, 1);
+});
+
+// Cegah Tab, Arrow keys, dll memindahkan fokus
+elInput.addEventListener('keydown', e => {
+  if (e.key === 'Tab') { e.preventDefault(); return; }
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!isLock && elInput.value.trim()) eksekusi(elInput.value.trim());
+    return;
+  }
+});
 
 // Auto-trigger saat panjang ≥ 10 (format SDIT-XXXXX)
 elInput.addEventListener('input', () => {
   if (!isLock && elInput.value.trim().length >= 10) eksekusi(elInput.value.trim());
 });
-// Fallback Enter
-elInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { e.preventDefault(); if (!isLock && elInput.value.trim()) eksekusi(elInput.value.trim()); }
+
+// ══════════════════════════════════════════════════
+// FULLSCREEN OTOMATIS
+// ══════════════════════════════════════════════════
+function mintaFullscreen() {
+  const el = document.documentElement;
+  if (el.requestFullscreen)       el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  else if (el.mozRequestFullScreen)    el.mozRequestFullScreen();
+  else if (el.msRequestFullscreen)     el.msRequestFullscreen();
+}
+
+// Fullscreen saat pertama kali user klik (browser butuh gesture)
+document.addEventListener('click', mintaFullscreen, { once: true });
+
+// Juga coba saat halaman pertama dimuat (mungkin berhasil di beberapa browser)
+window.addEventListener('load', () => {
+  setTimeout(mintaFullscreen, 500);
 });
 
 // ══════════════════════════════════════════════════
