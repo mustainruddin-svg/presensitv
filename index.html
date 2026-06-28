@@ -26,7 +26,8 @@
     html, body {
       height: 100%; width: 100%;
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(155deg, #0d2137 0%, #1a3a5c 65%, #0f2a45 100%);
+      /* LITE: solid color, hapus linear-gradient berat */
+      background: #0d2137;
       overflow: hidden;
     }
 
@@ -35,7 +36,7 @@
       position: fixed; inset: 0;
       background: rgba(13,33,55,.95);
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 14px; z-index: 999; transition: opacity .4s;
+      flex-direction: column; gap: 14px; z-index: 999;
     }
     .spin {
       width: 40px; height: 40px;
@@ -107,9 +108,8 @@
     .btn-refresh {
       background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
       color: var(--putih); font-size: 10px; font-weight: 600;
-      padding: 4px 11px; border-radius: 20px; cursor: pointer; transition: .2s;
+      padding: 4px 11px; border-radius: 20px; cursor: pointer;
     }
-    .btn-refresh:hover { background: rgba(255,255,255,.2); }
 
     /* ── KONTEN SPLIT ── */
     .konten {
@@ -125,22 +125,19 @@
       border-radius: 16px;
       padding: 16px 18px 14px;
       display: flex; flex-direction: column; gap: 10px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.3);
       overflow: hidden;
     }
 
-    /* Jam besar */
-.jam-hero {
-  background: linear-gradient(135deg, #bde4f7 0%, #ddf0fb 100%);
-  border-radius: 12px;
-  padding: 14px 20px 12px;
-  text-align: center;
-  flex-shrink: 0;
-  min-height: 200px;        /* ← tambahkan ini untuk tinggi */
-  display: flex;            /* ← tambahkan ini */
-  flex-direction: column;   /* ← tambahkan ini */
-  justify-content: center;  /* ← tambahkan ini */
-}
+    /* Jam besar — LITE: hapus linear-gradient, pakai solid */
+    .jam-hero {
+      background: #d6eef9;
+      border-radius: 12px;
+      padding: 14px 20px 12px;
+      text-align: center;
+      flex-shrink: 0;
+      min-height: 200px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
     .jam-hero .tgl {
       font-size: 13px; font-weight: 700;
       color: var(--teks-sedang); text-transform: uppercase;
@@ -187,17 +184,17 @@
       width: 100%; padding: 13px 44px 13px 14px;
       font-size: 17px; font-weight: 700; color: var(--teks-gelap);
       background: var(--abu-muda); border: 2.5px solid var(--biru);
-      border-radius: 11px; outline: none; transition: .25s; letter-spacing: 1px;
+      border-radius: 11px; outline: none; letter-spacing: 1px;
     }
     #qrInput::placeholder { font-size: 12px; font-weight: 400; color: #aab; letter-spacing: 0; }
-    #qrInput:focus { border-color: var(--hijau); box-shadow: 0 0 0 4px rgba(39,174,96,.12); }
+    #qrInput:focus { border-color: var(--hijau); }
     #qrInput:read-only { background: #fdecea; border-color: var(--merah); color: var(--merah); cursor: not-allowed; }
     .scan-ikon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; opacity: .35; }
 
     .kotak-status {
       margin-top: 6px; padding: 10px 14px; border-radius: 10px;
       font-size: 13px; font-weight: 700; color: var(--putih);
-      background: var(--hijau); opacity: 0; transition: opacity .3s; text-align: center;
+      background: var(--hijau); opacity: 0; text-align: center;
     }
 
     /* Grid 9 jam */
@@ -218,7 +215,7 @@
     .kj.cs  .kj-nilai  { color: var(--oranye); }
     .kj.sabtu .kj-nilai { color: var(--hijau); }
 
-    /* Motivasi */
+    /* Motivasi — LITE: hapus transition opacity */
     .kotak-motivasi {
       background: var(--navy);
       border-radius: 10px;
@@ -229,10 +226,9 @@
       display: flex; align-items: center; justify-content: center;
     }
     .motivasi-teks {
-      font-size: 20px; font-weight: 600;
+      font-size: 18px; font-weight: 600;
       color: rgba(255,255,255,.85);
       line-height: 1.5;
-      transition: opacity .6s;
     }
     .motivasi-teks .motivasi-label {
       font-size: 9px; font-weight: 700;
@@ -241,79 +237,53 @@
     }
 
     /* ══════════════════════════════════
-       PANEL KANAN
+       PANEL KANAN — LITE VERSION
+       Foto kecil 120×120, tanpa conic-gradient,
+       tanpa strip 5 terakhir
     ══════════════════════════════════ */
     .panel-kanan {
       flex: 0.9;
       background: var(--putih);
       border-radius: 16px;
-      padding: 16px 16px 14px;
+      padding: 20px 16px 16px;
       display: flex; flex-direction: column;
-      box-shadow: 0 8px 30px rgba(0,0,0,.3);
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
 
-    /* Foto besar */
-    .profil-wrap {
-      display: flex; flex-direction: column;
-      align-items: center; flex-shrink: 0;
-    }
+    /* LITE: foto kecil 120×120, border solid biasa, hapus conic-gradient */
     .foto-ring {
-      width: 400px; height: 400px;
-      border-radius: 50%; padding: 5px;
-      background: conic-gradient(var(--biru) 0% 70%, #e0e7ef 70%);
-      transition: background .4s;
-      margin: 8px 0 10px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 5px solid var(--biru);
+      margin: 0 0 14px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
-    .foto-ring.sukses    { background: conic-gradient(var(--hijau) 0% 100%, #e0e7ef 100%); }
-    .foto-ring.terlambat { background: conic-gradient(var(--oranye) 0% 55%, #e0e7ef 55%); }
-    .foto-ring.pulang    { background: conic-gradient(var(--biru-pulang) 0% 100%, #e0e7ef 100%); }
-    .foto-ring.gagal     { background: conic-gradient(var(--merah) 0% 100%, #e0e7ef 100%); }
+    .foto-ring.sukses    { border-color: var(--hijau); }
+    .foto-ring.terlambat { border-color: var(--oranye); }
+    .foto-ring.pulang    { border-color: var(--biru-pulang); }
+    .foto-ring.gagal     { border-color: var(--merah); }
+
     .foto-profil {
       width: 100%; height: 100%;
-      border-radius: 50%; object-fit: cover;
-      border: 5px solid var(--putih); display: block;
+      border-radius: 50%; object-fit: cover; display: block;
     }
+
     .nama-profil {
-      font-size: 20px; font-weight: 800; color: var(--teks-gelap);
-      text-align: center; min-height: 26px; margin-bottom: 5px;
+      font-size: 22px; font-weight: 800; color: var(--teks-gelap);
+      text-align: center; margin-bottom: 6px; line-height: 1.2;
+      padding: 0 10px;
     }
     .badge-unit {
       font-size: 10px; font-weight: 700; padding: 2px 14px;
-      border-radius: 20px; background: #e8f4fb; color: var(--biru); margin-bottom: 8px;
+      border-radius: 20px; background: #e8f4fb; color: var(--biru); margin-bottom: 14px;
     }
     .pesan-profil {
-      font-size: 14px; font-weight: 700; color: var(--putih);
-      background: #bdc3c7; padding: 8px 22px; border-radius: 28px; transition: .3s;
-    }
-
-    /* Strip 5 terakhir — vertikal di panel kanan */
-    .strip-judul {
-      font-size: 9px; font-weight: 700; color: var(--teks-sedang);
-      text-transform: uppercase; letter-spacing: 1px;
-      margin: 10px 0 6px; padding-top: 10px;
-      border-top: 1.5px dashed var(--abu-border); flex-shrink: 0;
-    }
-    .strip-list-v {
-      display: flex; flex-direction: column; gap: 5px;
-      flex: 1; overflow: hidden;
-    }
-    .strip-item-v {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--abu-muda); border-radius: 30px;
-      padding: 4px 12px 4px 4px;
-      animation: fadeIn .3s ease;
-    }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-    .strip-item-v img {
-      width: 34px; height: 34px; border-radius: 50%;
-      object-fit: cover; border: 2px solid var(--abu-border); flex-shrink: 0;
-    }
-    .si-nama  { font-size: 12px; font-weight: 700; color: var(--teks-gelap); }
-    .si-meta  { font-size: 10px; color: var(--teks-sedang); }
-    .strip-kosong {
-      font-size: 11px; color: var(--teks-sedang);
-      font-style: italic; text-align: center; padding: 10px 0;
+      font-size: 16px; font-weight: 700; color: var(--putih);
+      background: #bdc3c7; padding: 10px 30px; border-radius: 28px;
+      text-align: center;
     }
 
     iframe { display: none !important; }
@@ -332,7 +302,7 @@
   <div class="ikon">⛔</div>
   <h2>AKSES DITOLAK</h2>
   <p>Mesin Presensi ini belum diotorisasi.<br>
-  Hubungi <strong>Administrator — Media & Humas SIT Ar-Rahmah</strong>.</p>
+  Hubungi <strong>Administrator — Media &amp; Humas SIT Ar-Rahmah</strong>.</p>
 </div>
 
 <!-- LAYAR UTAMA -->
@@ -398,7 +368,7 @@
         <div class="kotak-status" id="kotakStatus"></div>
       </div>
 
-      <!-- 9 KARTU JAM — di bawah scanner -->
+      <!-- 9 KARTU JAM -->
       <div class="grid-jam">
         <div class="kj guru">
           <div class="kj-label">Masuk Guru</div>
@@ -448,26 +418,19 @@
 
     </div><!-- /panel-kiri -->
 
-    <!-- PANEL KANAN -->
+    <!-- PANEL KANAN — LITE: foto kecil, tanpa strip 5 terakhir -->
     <div class="panel-kanan">
-      <div class="panel-judul">Profil Pegawai</div>
+      <div class="panel-judul" style="margin-bottom:16px">Profil Pegawai</div>
 
-      <!-- FOTO BESAR -->
-      <div class="profil-wrap">
-        <div class="foto-ring" id="fotoRing">
-          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-               alt="Foto" class="foto-profil" id="popFoto">
-        </div>
-        <div class="nama-profil" id="popNama">Siap Menerima Scan</div>
-        <div class="badge-unit"  id="popUnit">SDIT</div>
-        <div class="pesan-profil" id="popPesan">Menunggu…</div>
+      <!-- FOTO KECIL 120×120 + border solid -->
+      <div class="foto-ring" id="fotoRing">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+             alt="Foto" class="foto-profil" id="popFoto">
       </div>
 
-      <!-- 5 TERAKHIR vertikal -->
-      <div class="strip-judul">⏱ 5 Scan Terakhir</div>
-      <div class="strip-list-v" id="stripList">
-        <div class="strip-kosong">Belum ada scan hari ini…</div>
-      </div>
+      <div class="nama-profil" id="popNama">Siap Menerima Scan</div>
+      <div class="badge-unit"  id="popUnit">SDIT</div>
+      <div class="pesan-profil" id="popPesan">Menunggu…</div>
 
     </div><!-- /panel-kanan -->
 
@@ -500,7 +463,8 @@ const JAM_FALLBACK = {
 };
 
 // ══════════════════════════════════════════════════
-// KONTEN MOTIVASI — bergantian setiap 10 detik
+// KONTEN MOTIVASI — bergantian setiap 30 detik (LITE)
+// Tanpa transisi opacity untuk hemat CPU
 // ══════════════════════════════════════════════════
 const MOTIVASI = [
   { label: "Ayat Al-Qur'an", isi: "\"Dan tolong-menolonglah kamu dalam (mengerjakan) kebajikan dan takwa.\" (QS. Al-Ma'idah: 2)" },
@@ -517,22 +481,16 @@ const MOTIVASI = [
 
 let motivasiIdx = 0;
 function tampilkanMotivasiBerikut() {
-  const el    = document.getElementById('motivasiTeks');
-  const label = document.getElementById('motivasiLabel');
-  const isi   = document.getElementById('motivasiIsi');
-  el.style.opacity = '0';
-  setTimeout(() => {
-    motivasiIdx = (motivasiIdx + 1) % MOTIVASI.length;
-    label.innerText = MOTIVASI[motivasiIdx].label;
-    isi.innerText   = MOTIVASI[motivasiIdx].isi;
-    el.style.opacity = '1';
-  }, 600);
+  // LITE: langsung ganti teks, tanpa transisi opacity
+  motivasiIdx = (motivasiIdx + 1) % MOTIVASI.length;
+  document.getElementById('motivasiLabel').innerText = MOTIVASI[motivasiIdx].label;
+  document.getElementById('motivasiIsi').innerText   = MOTIVASI[motivasiIdx].isi;
 }
 function inisialisasiMotivasiAwal() {
   motivasiIdx = Math.floor(Math.random() * MOTIVASI.length);
   document.getElementById('motivasiLabel').innerText = MOTIVASI[motivasiIdx].label;
   document.getElementById('motivasiIsi').innerText   = MOTIVASI[motivasiIdx].isi;
-  setInterval(tampilkanMotivasiBerikut, 10000);
+  setInterval(tampilkanMotivasiBerikut, 30000); // LITE: 30 detik (semula 10 detik)
 }
 
 // ══════════════════════════════════════════════════
@@ -579,7 +537,7 @@ const dataPegawai = {
   "SDIT-833A4": { nama: "Rosdiana, S.Pd.I., Gr.",                 foto: "foto/rosdiana.jpg" },
   "SDIT-A0601": { nama: "Baharuddin, S.H.I.",                     foto: "foto/baharuddin.jpg" },
   "SDIT-3B686": { nama: "Hilal Satriawan, S.Pd., M.Pd.",          foto: "foto/hilal.jpg" },
-  "SDIT-E28C3": { nama: "Muh. Fadly Ilyas, S.Pd",                foto: "foto/fadly.jpg" },
+  "SDIT-E28C3": { nama: "Muh. Fadly Ilyas, S.Pd",                 foto: "foto/fadly.jpg" },
   "SDIT-25730": { nama: "M. Akil Husain, S.Pd.I",                 foto: "foto/akil.jpg" },
   "SDIT-95F44": { nama: "Aan Al Ikhsan Hasda, S.Pd.",             foto: "foto/aan.jpg" },
   "SDIT-D5DCC": { nama: "Rosnani Alimuddin",                      foto: "foto/rosnani.jpg" },
@@ -587,7 +545,7 @@ const dataPegawai = {
   "SDIT-69495": { nama: "Syarif Dai, S.Pd.",                      foto: "foto/syarif.jpg" },
   "SDIT-72155": { nama: "Mariati, S.Pd.I.",                       foto: "foto/mariati.jpg" },
   "SDIT-4647E": { nama: "Mahira, S.Pd., M.Pd.",                   foto: "foto/mahira.jpg" },
-  "SDIT-C798C": { nama: "Muammar Qadafi, S.Kep",                 foto: "foto/muammar.jpg" },
+  "SDIT-C798C": { nama: "Muammar Qadafi, S.Kep",                  foto: "foto/muammar.jpg" },
   "SDIT-44D60": { nama: "Siti Fathin Faizah Yunus, S.Pd., Gr.",   foto: "foto/fathin.jpg" },
   "SDIT-EB76E": { nama: "Muh. Idris P, S.Pd., M.Pd.",             foto: "foto/idris.jpg" },
   "SDIT-DA0E4": { nama: "Puspa Amelia, S.Pd.",                    foto: "foto/puspa.jpg" },
@@ -637,20 +595,15 @@ const dataPegawai = {
 };
 
 // ══════════════════════════════════════════════════
-// STATE
+// STATE — LITE: hapus array riwayat (strip dihilangkan)
 // ══════════════════════════════════════════════════
 let JAM         = { ...JAM_FALLBACK };
 let scanHistory = {};
-let riwayat     = [];
 let isLock      = false;
-let audioAktif  = null;
 
-function putarAudio(file) {
-  if (audioAktif) { audioAktif.pause(); audioAktif.currentTime = 0; }
-  audioAktif = new Audio(file);
-  audioAktif.play().catch(() => {});
-}
-
+// ══════════════════════════════════════════════════
+// ELEMENT REFS
+// ══════════════════════════════════════════════════
 const elInput  = document.getElementById('qrInput');
 const elForm   = document.getElementById('presensiForm');
 const elStatus = document.getElementById('kotakStatus');
@@ -659,7 +612,6 @@ const elFoto   = document.getElementById('popFoto');
 const elNama   = document.getElementById('popNama');
 const elUnit   = document.getElementById('popUnit');
 const elPesan  = document.getElementById('popPesan');
-const elStrip  = document.getElementById('stripList');
 
 // ══════════════════════════════════════════════════
 // OTORISASI
@@ -731,7 +683,7 @@ async function inisialisasiJam(forceRefresh = false) {
   }
   const ld = document.getElementById('layarLoading');
   ld.style.opacity = '0';
-  setTimeout(() => { ld.style.display = 'none'; }, 400);
+  setTimeout(() => { ld.style.display = 'none'; }, 300);
   document.getElementById('layarPresensi').style.display = 'flex';
   elInput.focus();
   inisialisasiMotivasiAwal();
@@ -786,7 +738,7 @@ function updateWaktu() {
 
   if (sisMasuk > 0) {
     cdBox.classList.add('cd-piket');
-    setTxt('cdPrefix', `JAM BERIKUTNYA :`);
+    setTxt('cdPrefix', 'JAM BERIKUTNYA :');
     setTxt('cdNilai',  fmtSisa(sisMasuk));
     setTxt('cdTag',    isSabtu ? 'BATAS SABTU' : 'BATAS MASUK');
   } else if (H < 12) {
@@ -810,45 +762,19 @@ setInterval(updateWaktu, 1000);
 updateWaktu();
 
 // ══════════════════════════════════════════════════
-// STRIP 5 TERAKHIR — vertikal di panel kanan
-// Foto pegawai terakhir scan tetap tampil di profil
-// sampai ada yang scan berikutnya
-// ══════════════════════════════════════════════════
-function renderStrip() {
-  if (!riwayat.length) {
-    elStrip.innerHTML = '<div class="strip-kosong">Belum ada scan hari ini…</div>';
-    return;
-  }
-  elStrip.innerHTML = [...riwayat].reverse().map((r, i) => `
-    <div class="strip-item-v">
-      <img src="${r.foto}" onerror="this.src='${FOTO_DEFAULT}'" alt="">
-      <div>
-        <div class="si-nama">${r.nama}</div>
-        <div class="si-meta">${r.waktu} · ${r.sesi}</div>
-      </div>
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════════════
-// RESET PANEL — foto tetap sampai scan berikutnya
+// RESET PANEL
 // ══════════════════════════════════════════════════
 function resetPanelSoft() {
-  // Nama & pesan reset, tapi FOTO TETAP (sesuai poin 3)
-  elNama.innerText          = riwayat.length ? namaRingkas(riwayat[riwayat.length-1].namaPanjang) : 'Siap Menerima Scan';
-  elUnit.innerText          = 'SDIT';
-  elPesan.innerText         = 'Menunggu…';
-  elPesan.style.background  = '#bdc3c7';
-  // Ring kembali ke default tapi foto tetap
-  elRing.className          = 'foto-ring';
-  if (riwayat.length) {
-    elFoto.src = riwayat[riwayat.length-1].foto;
-  } else {
-    elFoto.src = FOTO_DEFAULT;
-  }
+  elNama.innerText         = 'Siap Menerima Scan';
+  elUnit.innerText         = 'SDIT';
+  elPesan.innerText        = 'Menunggu…';
+  elPesan.style.background = '#bdc3c7';
+  elRing.className         = 'foto-ring';
+  elFoto.src               = FOTO_DEFAULT;
 }
 
 // ══════════════════════════════════════════════════
-// EKSEKUSI PRESENSI
+// EKSEKUSI PRESENSI — LITE: hapus putarAudio, hapus tambahRiwayat
 // ══════════════════════════════════════════════════
 function eksekusi(id) {
   const now  = Date.now();
@@ -871,7 +797,6 @@ function eksekusi(id) {
 
   // COOLDOWN
   if (scanHistory[id] && (now - scanHistory[id] < COOLDOWN_MS)) {
-    putarAudio('sudah_scan.wav');
     elStatus.innerHTML        = '⚠️ Sudah presensi. Tunggu 10 menit.';
     elStatus.style.background = '#e67e22';
     elStatus.style.opacity    = '1';
@@ -885,7 +810,6 @@ function eksekusi(id) {
     const [bH, bM] = (isSabtu ? JAM.jamMasukSabtu : JAM.jamMasukGuru).split(':').map(Number);
     const terlambat = H > bH || (H === bH && M >= bM);
     if (terlambat) {
-      putarAudio('terlambat.wav');
       elStatus.innerHTML        = '🕐 Presensi Datang (Terlambat)';
       elStatus.style.background = '#e74c3c';
       elStatus.style.opacity    = '1';
@@ -893,7 +817,6 @@ function eksekusi(id) {
       elPesan.style.background  = '#e74c3c';
       elRing.className          = 'foto-ring terlambat';
     } else {
-      putarAudio('datang_berhasil.wav');
       elStatus.innerHTML        = '✅ Presensi Datang Berhasil!';
       elStatus.style.background = '#27ae60';
       elStatus.style.opacity    = '1';
@@ -902,12 +825,10 @@ function eksekusi(id) {
       elRing.className          = 'foto-ring sukses';
     }
     elForm.submit();
-    tambahRiwayat(namaTmp, fotoTmp, nowD, 'Datang');
   }
   // PULANG
   else {
     scanHistory[id] = now;
-    putarAudio('pulang.wav');
     elStatus.innerHTML        = '✅ Presensi Pulang Berhasil!';
     elStatus.style.background = '#2980b9';
     elStatus.style.opacity    = '1';
@@ -915,30 +836,17 @@ function eksekusi(id) {
     elPesan.style.background  = '#2980b9';
     elRing.className          = 'foto-ring pulang';
     elForm.submit();
-    tambahRiwayat(namaTmp, fotoTmp, nowD, 'Pulang');
   }
 
   elInput.value = '';
 
   setTimeout(() => {
     elStatus.style.opacity = '0';
-    resetPanelSoft(); // foto tetap!
+    resetPanelSoft();
     isLock              = false;
     elInput.readOnly    = false;
     elInput.placeholder = 'Menunggu scan ID Card…';
   }, 2500);
-}
-
-function tambahRiwayat(nama, foto, d, sesi) {
-  riwayat.push({
-    namaPanjang: nama,
-    nama  : namaRingkas(nama),
-    foto,
-    waktu : `${f2(d.getHours())}:${f2(d.getMinutes())}:${f2(d.getSeconds())}`,
-    sesi
-  });
-  if (riwayat.length > 5) riwayat.shift();
-  renderStrip();
 }
 
 // ══════════════════════════════════════════════════
